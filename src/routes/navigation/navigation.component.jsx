@@ -1,7 +1,7 @@
 import {Fragment} from 'react';
 import {Outlet, Link} from 'react-router-dom';
 
-import { ReactComponent as DietPlannerLogo } from '../../assets/diet-planner.svg';
+import {ReactComponent as DietPlannerLogo} from '../../assets/diet-planner.svg';
 
 import './navigation.styles.scss';
 
@@ -9,14 +9,14 @@ const Navigation = () => {
   return (
     <Fragment>
       <div className="navigation">
-        <Link className='logo-container' to='/'>
-          <DietPlannerLogo className='logo' />
+        <Link className="logo-container" to="/">
+          <DietPlannerLogo className="logo" />
         </Link>
         <div className="nav-links-container">
           <Link className="nav-link" to="/diets">
             DIETS
           </Link>
-          <Link className="nav-link" to="/sign-in">
+          <Link className="nav-link" to="/auth">
             SIGN IN
           </Link>
         </div>
