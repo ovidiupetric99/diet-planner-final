@@ -6,6 +6,7 @@ import Button from '../button/button.component';
 import {
   createAuthUserWithEmailAndPassword,
   createUserDocumentFromAuth,
+  currentUserData,
 } from '../../utils/firebase/firebase.utils';
 
 import './sign-up-form.styles.scss';
@@ -35,14 +36,23 @@ const SignUpForm = () => {
 
     try {
       const {user} = await createAuthUserWithEmailAndPassword (email, password);
-
-      await createUserDocumentFromAuth (user, {displayName});
+      await createUserDocumentFromAuth (user, {
+        displayName,
+        age: 0,
+        gender: '',
+        wheight: 0,
+        height: 0,
+        activity: 0,
+      });
+      const verify = currentUserData (user);
+      if (verify) console.log ('Varsta e 0');
+      else console.log ('Varsta nu e 0');
       resetFormFields ();
     } catch (error) {
       if (error.code == 'auth/email-already-in-use') {
         alert ('Cannot create user, email already in use');
       } else {
-        console.log ('user creation ecnountered an error', error);
+        console.log ('user creation encountered an error', error);
       }
     }
   };
