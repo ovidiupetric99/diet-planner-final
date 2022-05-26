@@ -7,6 +7,7 @@ import {ReactComponent as DietPlannerLogo} from '../../assets/diet-planner.svg';
 import {UserContext} from '../../contexts/user.context';
 
 import {signOutUser} from '../../utils/firebase/firebase.utils.js';
+import {intializeDefaultFormFields} from '../../utils/firebase/firebase.utils';
 
 import './navigation.styles.scss';
 
@@ -23,8 +24,8 @@ const Navigation = () => {
           <Link className="nav-link" to="/auth">
             SETTINGS
           </Link>
-          <Link className="nav-link" to="/diets">
-            DIETS
+          <Link className="nav-link" to="/food">
+            FOOD
           </Link>
           {currentUser
             ? <span className="nav-link" onClick={signOutUser}>

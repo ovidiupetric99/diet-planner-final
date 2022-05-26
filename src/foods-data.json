@@ -1,0 +1,29 @@
+[
+    {
+        "id": 1,
+        "name": "Piept de pui",
+        "imageUrl": "https://i.ibb.co/ZYW3VTp/brown-brim.png",
+        "kcal": 100,
+        "protein": 20,
+        "carbohidrates": 0.3,
+        "fats": 1
+    },
+    {
+        "id": 2,
+        "name": "Orez",
+        "imageUrl": "https://i.ibb.co/ZYW3VTp/brown-brim.png",
+        "kcal": 400,
+        "protein": 8,
+        "carbohidrates": 80,
+        "fats": 3
+    },
+    {
+        "id": 3,
+        "name": "Paine alba",
+        "imageUrl": "https://i.ibb.co/QdJwgmp/brown-cowboy.png",
+        "kcal": 450,
+        "protein": 12,
+        "carbohidrates": 50,
+        "fats": 10
+    }
+]

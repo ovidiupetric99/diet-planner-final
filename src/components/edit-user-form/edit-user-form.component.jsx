@@ -12,8 +12,9 @@ import {getAuth} from 'firebase/auth';
 import {getFirestore} from 'firebase/firestore';
 
 import './edit-user-form.styles.scss';
+import {initializeApp} from 'firebase/app';
 
-const defaultFormFields = {
+let defaultFormFields = {
   age: '',
   gender: '',
   wheight: '',
@@ -21,10 +22,10 @@ const defaultFormFields = {
   activity: '',
 };
 
-export const auth = getAuth ();
-export const user = auth.currentUser;
-
 const EditUserForm = () => {
+  const auth = getAuth ();
+  const user = auth.currentUser;
+
   const [formFields, setFormFields] = useState (defaultFormFields);
   const {age, gender, wheight, height, activity} = formFields;
 
@@ -36,6 +37,7 @@ const EditUserForm = () => {
     event.preventDefault ();
     resetFormFields ();
     try {
+      // console.log (await currentUserData (user));
       await editUserDocumentFromAuth (user, {
         age,
         gender,
@@ -50,7 +52,6 @@ const EditUserForm = () => {
 
   const handleChange = event => {
     const {name, value} = event.target;
-
     setFormFields ({...formFields, [name]: value});
   };
 
@@ -58,6 +59,22 @@ const EditUserForm = () => {
     <div className="edit-user-container">
       <h2>Edit user</h2>
       <form onSubmit={handleSubmit}>
+        <div>
+          <FormInput
+            label="Male"
+            type="radio"
+            onChange={handleChange}
+            name="gender"
+            value="male"
+          />
+          <FormInput
+            label="Female"
+            type="radio"
+            onChange={handleChange}
+            name="gender"
+            value="female"
+          />
+        </div>
         <FormInput
           label="Age"
           type="number"
@@ -65,14 +82,6 @@ const EditUserForm = () => {
           onChange={handleChange}
           name="age"
           value={age}
-        />
-        <FormInput
-          label="Gender"
-          type="text"
-          required
-          onChange={handleChange}
-          name="gender"
-          value={gender}
         />
         <FormInput
           label="Wheight (in Kg)"
@@ -90,14 +99,20 @@ const EditUserForm = () => {
           name="height"
           value={height}
         />
-        <FormInput
-          label="Activity"
-          type="number"
-          required
-          onChange={handleChange}
-          name="activity"
-          value={activity}
+        <DropdownList
+          defaultValue="Yellow"
+          value={['Red', 'Yellow', 'Blue', 'Orange']}
         />
+        {/*<label>
+          Activity level per week:
+          <input list="activity-level" name="activity" />
+        </label>
+        <datalist id="activity-level">
+          <option value="1">1-3 times per week</option>
+          <option value="2">3-4 times per week</option>
+          <option value="3">4-6 times per week</option>
+          <option value="4">6-7 times per week</option>
+  </datalist>*/}
         <Button type="submit">Edit</Button>
       </form>
     </div>
