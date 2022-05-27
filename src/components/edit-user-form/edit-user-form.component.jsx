@@ -1,4 +1,4 @@
-import {useState, useEffect} from 'react';
+import {useState, useContext, useEffect} from 'react';
 
 import FormInput from '../form-input/form-input.component';
 import Button from '../button/button.component';
@@ -12,7 +12,6 @@ import {getAuth} from 'firebase/auth';
 import {getFirestore} from 'firebase/firestore';
 
 import './edit-user-form.styles.scss';
-import {initializeApp} from 'firebase/app';
 
 const defaultFormFields = {
   age: '',
@@ -22,7 +21,7 @@ const defaultFormFields = {
   activity: '',
 };
 
-let verify = false;
+export let verify = false;
 
 const EditUserForm = () => {
   const auth = getAuth ();
@@ -31,7 +30,7 @@ const EditUserForm = () => {
   const [formFields, setFormFields] = useState (defaultFormFields);
   const {age, gender, wheight, height, activity} = formFields;
 
-  // verify = verificare ();
+  // verificare ();
 
   //aici apelez functia pt verify
 
@@ -50,6 +49,7 @@ const EditUserForm = () => {
         height,
         activity,
       });
+      console.log ('edited succesfully');
     } catch (error) {
       console.log ('user editing encountered an error', error);
     }
@@ -135,7 +135,6 @@ const EditUserForm = () => {
           name="height"
           value={height}
         />
-
         <Button type="submit">
           Edit
         </Button>

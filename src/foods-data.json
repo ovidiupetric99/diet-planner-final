@@ -25,5 +25,14 @@
         "protein": 12,
         "carbohidrates": 50,
         "fats": 10
+    },
+    {
+        "id": 4,
+        "name": "Ulei de masline",
+        "imageUrl": "https://i.ibb.co/QdJwgmp/brown-cowboy.png",
+        "kcal": 700,
+        "protein": 0,
+        "carbohidrates": 10,
+        "fats": 95
     }
 ]
