@@ -14,7 +14,7 @@ import {getFirestore} from 'firebase/firestore';
 import './edit-user-form.styles.scss';
 import {initializeApp} from 'firebase/app';
 
-let defaultFormFields = {
+const defaultFormFields = {
   age: '',
   gender: '',
   wheight: '',
@@ -22,12 +22,18 @@ let defaultFormFields = {
   activity: '',
 };
 
+let verify = false;
+
 const EditUserForm = () => {
   const auth = getAuth ();
   const user = auth.currentUser;
 
   const [formFields, setFormFields] = useState (defaultFormFields);
   const {age, gender, wheight, height, activity} = formFields;
+
+  // verify = verificare ();
+
+  //aici apelez functia pt verify
 
   const resetFormFields = () => {
     setFormFields (defaultFormFields);
@@ -37,7 +43,6 @@ const EditUserForm = () => {
     event.preventDefault ();
     resetFormFields ();
     try {
-      // console.log (await currentUserData (user));
       await editUserDocumentFromAuth (user, {
         age,
         gender,
@@ -60,6 +65,7 @@ const EditUserForm = () => {
       <h2>Edit user</h2>
       <form onSubmit={handleSubmit}>
         <div>
+          <h4>Choose Gender</h4>
           <FormInput
             label="Male"
             type="radio"
@@ -75,10 +81,42 @@ const EditUserForm = () => {
             value="female"
           />
         </div>
+
+        <div>
+          <h4>Choose Activity Level</h4>
+          <FormInput
+            label="1-3 times per week (low)"
+            type="radio"
+            onChange={handleChange}
+            name="activity"
+            value="1"
+          />
+          <FormInput
+            label="3-4 times per week (medium)"
+            type="radio"
+            onChange={handleChange}
+            name="activity"
+            value="2"
+          />
+          <FormInput
+            label="4-5 times per week (high)"
+            type="radio"
+            onChange={handleChange}
+            name="activity"
+            value="3"
+          />
+          <FormInput
+            label="6-7 times per week (verry high)"
+            type="radio"
+            onChange={handleChange}
+            name="activity"
+            value="4"
+          />
+        </div>
+
         <FormInput
           label="Age"
           type="number"
-          required
           onChange={handleChange}
           name="age"
           value={age}
@@ -86,7 +124,6 @@ const EditUserForm = () => {
         <FormInput
           label="Wheight (in Kg)"
           type="number"
-          required
           onChange={handleChange}
           name="wheight"
           value={wheight}
@@ -94,26 +131,14 @@ const EditUserForm = () => {
         <FormInput
           label="Height (in cm)"
           type="number"
-          required
           onChange={handleChange}
           name="height"
           value={height}
         />
-        <DropdownList
-          defaultValue="Yellow"
-          value={['Red', 'Yellow', 'Blue', 'Orange']}
-        />
-        {/*<label>
-          Activity level per week:
-          <input list="activity-level" name="activity" />
-        </label>
-        <datalist id="activity-level">
-          <option value="1">1-3 times per week</option>
-          <option value="2">3-4 times per week</option>
-          <option value="3">4-6 times per week</option>
-          <option value="4">6-7 times per week</option>
-  </datalist>*/}
-        <Button type="submit">Edit</Button>
+
+        <Button type="submit">
+          Edit
+        </Button>
       </form>
     </div>
   );

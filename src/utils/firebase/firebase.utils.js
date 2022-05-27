@@ -132,5 +132,6 @@ export const currentUserData = async userAuth => {
 
   const userSnapshot = await getDoc (userDocRef);
 
-  return userSnapshot.data ();
+  if (userSnapshot.data ().age != 0) return true;
+  else return false;
 };

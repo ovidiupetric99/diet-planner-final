@@ -1,18 +1,21 @@
 import {Fragment, useContext} from 'react';
 import {Outlet, Link} from 'react-router-dom';
 
-import {getFirestore, doc, getDoc, setDoc} from 'firebase/firestore';
+import CartIcon from '../../components/cart-icon/cart-icon.component';
+import CartDropdown
+  from '../../components/cart-dropdown/cart-dropdown.component';
+
+import {UserContext} from '../../contexts/user.context';
+import {CartContext} from '../../contexts/cart.context';
 
 import {ReactComponent as DietPlannerLogo} from '../../assets/diet-planner.svg';
-import {UserContext} from '../../contexts/user.context';
-
 import {signOutUser} from '../../utils/firebase/firebase.utils.js';
-import {intializeDefaultFormFields} from '../../utils/firebase/firebase.utils';
 
 import './navigation.styles.scss';
 
 const Navigation = () => {
   const {currentUser} = useContext (UserContext);
+  const {isCartOpen} = useContext (CartContext);
 
   return (
     <Fragment>
@@ -40,8 +43,9 @@ const Navigation = () => {
                 EDIT USER
               </Link>
             : null}
-
+          <CartIcon />
         </div>
+        {isCartOpen && <CartDropdown />}
       </div>
       <Outlet />
     </Fragment>
