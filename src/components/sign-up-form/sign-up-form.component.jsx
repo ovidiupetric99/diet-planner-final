@@ -38,15 +38,12 @@ const SignUpForm = () => {
       const {user} = await createAuthUserWithEmailAndPassword (email, password);
       await createUserDocumentFromAuth (user, {
         displayName,
-        age: 0,
+        age: '',
         gender: '',
-        wheight: 0,
-        height: 0,
-        activity: 0,
+        wheight: '',
+        height: '',
+        activity: '',
       });
-      const verify = currentUserData (user);
-      if (verify) console.log ('Varsta e 0');
-      else console.log ('Varsta nu e 0');
       resetFormFields ();
     } catch (error) {
       if (error.code == 'auth/email-already-in-use') {

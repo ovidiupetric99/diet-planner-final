@@ -34,5 +34,14 @@
         "protein": 0,
         "carbohidrates": 10,
         "fats": 95
+    },
+    {
+        "id": 5,
+        "name": "Pietre",
+        "imageUrl": "https://i.ibb.co/QdJwgmp/brown-cowboy.png",
+        "kcal": 700,
+        "protein": 0,
+        "carbohidrates": 10,
+        "fats": 95
     }
 ]

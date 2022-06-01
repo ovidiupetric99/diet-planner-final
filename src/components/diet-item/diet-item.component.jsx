@@ -5,7 +5,7 @@ import {CartContext} from '../../contexts/cart.context';
 import './diet-item.styles.scss';
 
 const DietItem = ({cartItem}) => {
-  const {name, imageUrl, kcal, quantity} = cartItem;
+  const {name, kcal, quantity} = cartItem;
   const {clearItemFromCart, addItemToCart, removeItemFromCart} = useContext (
     CartContext
   );
@@ -19,9 +19,6 @@ const DietItem = ({cartItem}) => {
 
   return (
     <div className="checkout-item-container">
-      <div className="image-container">
-        <img src={imageUrl} alt={name} />
-      </div>
       <span className="name">{name}</span>
       <span className="quantity">
         <div className="arrow" onClick={removeItemHandler}>&#10094;</div>

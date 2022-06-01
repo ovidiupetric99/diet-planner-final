@@ -110,6 +110,16 @@ export const editUserDocumentFromAuth = async (
   }
 };
 
+export const getUserDocumentFromAuth = async userAuth => {
+  if (!userAuth) return;
+
+  const userDocRef = doc (db, 'users', userAuth.uid);
+
+  const userSnapshot = await getDoc (userDocRef);
+
+  if (userSnapshot.exists ()) return userSnapshot;
+};
+
 export const createAuthUserWithEmailAndPassword = async (email, password) => {
   if (!email || !password) return;
 
@@ -128,10 +138,20 @@ export const onAuthStateChangedListener = callback =>
   onAuthStateChanged (auth, callback);
 
 export const currentUserData = async userAuth => {
+  if (!userAuth) return;
   const userDocRef = doc (db, 'users', userAuth.uid);
 
   const userSnapshot = await getDoc (userDocRef);
 
-  if (userSnapshot.data ().age != 0) return true;
+  if (userSnapshot.data ().age) return true;
   else return false;
+};
+
+export const currentUserSnapshot = async userAuth => {
+  if (!userAuth) return;
+  const userDocRef = doc (db, 'users', userAuth.uid);
+
+  const userSnapshot = await getDoc (userDocRef);
+
+  return userSnapshot.data ();
 };

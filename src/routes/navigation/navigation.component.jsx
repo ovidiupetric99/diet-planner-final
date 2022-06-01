@@ -1,4 +1,4 @@
-import {Fragment, useContext} from 'react';
+import {Fragment, useContext, useState, useEffect} from 'react';
 import {Outlet, Link} from 'react-router-dom';
 
 import CartIcon from '../../components/cart-icon/cart-icon.component';
@@ -9,13 +9,31 @@ import {UserContext} from '../../contexts/user.context';
 import {CartContext} from '../../contexts/cart.context';
 
 import {ReactComponent as DietPlannerLogo} from '../../assets/diet-planner.svg';
-import {signOutUser} from '../../utils/firebase/firebase.utils.js';
+import {
+  currentUserSnapshot,
+  signOutUser,
+} from '../../utils/firebase/firebase.utils.js';
+import {getAuth} from 'firebase/auth';
+import {currentUserData} from '../../utils/firebase/firebase.utils.js';
 
 import './navigation.styles.scss';
 
 const Navigation = () => {
   const {currentUser} = useContext (UserContext);
   const {isCartOpen} = useContext (CartContext);
+  const [displayName, setDisplayName] = useState (null);
+
+  const user = currentUser;
+
+  const [verify, setVerify] = useState (false);
+
+  useEffect (
+    () => {
+      currentUserData (user).then (r => setVerify (r));
+      currentUserSnapshot (user).then (r => setDisplayName (r.displayName));
+    },
+    [currentUser]
+  );
 
   return (
     <Fragment>
@@ -24,6 +42,9 @@ const Navigation = () => {
           <DietPlannerLogo className="logo" />
         </Link>
         <div className="nav-links-container">
+          <Link className="nav-link" to="/">
+            Hi {displayName}!
+          </Link>
           <Link className="nav-link" to="/auth">
             SETTINGS
           </Link>
@@ -40,7 +61,7 @@ const Navigation = () => {
 
           {currentUser
             ? <Link className="nav-link" to="/edit-user">
-                EDIT USER
+                {`${verify ? 'EDIT USER' : 'CONFIGURE USER'}`}
               </Link>
             : null}
           <CartIcon />
