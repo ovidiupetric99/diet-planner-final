@@ -1,0 +1,15 @@
+.data-container {
+    display: flex;
+    width: 900px;
+    margin: auto;
+
+    .user-data {
+        width: 300px;
+    }
+
+    .chart {
+        text-align: center;
+        width: 500px;
+        margin: auto;
+    }
+}

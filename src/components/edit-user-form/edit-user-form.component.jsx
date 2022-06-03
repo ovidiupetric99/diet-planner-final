@@ -58,7 +58,6 @@ const EditUserForm = () => {
         height,
         activity,
       });
-      console.log ('edited succesfully');
       navigateToConfigureMacros ();
     } catch (error) {
       console.log ('user editing encountered an error', error);

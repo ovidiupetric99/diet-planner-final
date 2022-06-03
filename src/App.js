@@ -8,6 +8,7 @@ import Food from './routes/food/food.component';
 import Diet from './routes/diet/diet.component';
 import ConfigureMacros
   from './components/configure-macros-form/configure-macros-form.component';
+import UserData from './components/macros/macros.component';
 
 const App = () => {
   return (
@@ -19,6 +20,7 @@ const App = () => {
         <Route path="edit-user" element={<EditUser />} />
         <Route path="diet" element={<Diet />} />
         <Route path="configure-macros" element={<ConfigureMacros />} />
+        <Route path="user-data" element={<UserData />} />
       </Route>
     </Routes>
   );

@@ -1,4 +1,5 @@
 import {useState, useEffect, useContext} from 'react';
+import {useNavigate} from 'react-router-dom';
 
 import FormInput from '../form-input/form-input.component';
 import Button from '../button/button.component';
@@ -20,19 +21,39 @@ let defaultMacros = {
   fats: 0,
 };
 
+const getAge = require ('get-age');
+
 const ConfigureMacrosForm = () => {
   const [formFields, setFormFields] = useState (defaultMacros);
-  const {kcal, protein, carbs, fats} = formFields;
-  const [goalSelected, setGoalSelected] = useState (2);
+  let {kcal, protein, carbs, fats} = formFields;
+  const [goalSelected, setGoalSelected] = useState (0);
   const [userData, setUserData] = useState (null);
   const {currentUser} = useContext (UserContext);
+  const [deficit, setDeficit] = useState (0);
+  let age = 0;
+  const navigate = useNavigate ();
 
   const user = currentUser;
 
+  const resetFormFields = () => {
+    setFormFields (formFields);
+  };
+
+  const navigateToUserData = () => {
+    navigate ('/user-data');
+  };
+
   const handleSubmit = async event => {
-    calculateProteinNecesar ();
-    console.log (formFields);
     event.preventDefault ();
+    resetFormFields ();
+
+    if (goalSelected == 0) {
+      alert ('Please select a goal!');
+      return;
+    }
+    age = getAge (userData.birthday);
+    calculateMacros ();
+
     try {
       await editUserDocumentFromAuth (user, {
         kcal,
@@ -40,23 +61,103 @@ const ConfigureMacrosForm = () => {
         carbs,
         fats,
       });
-      console.log ('macros configured succesfully');
+      console.log (
+        'kcal: ' +
+          kcal +
+          '\nprotein: ' +
+          protein +
+          '\ncarbs: ' +
+          carbs +
+          '\nfats: ' +
+          fats
+      );
+      navigateToUserData ();
     } catch (error) {
       console.log ('macros configuring ecnountered and error', error);
     }
   };
 
-  const calculateProteinNecesar = () => {
-    if (goalSelected == 1) {
-      setFormFields ({...formFields, protein: `${2 * userData.wheight}`});
-      console.log ('protein' + formFields.protein);
+  const calculateMacros = () => {
+    kcal = parseInt (calculateKcal ());
+    protein = parseInt (calculateProtein ());
+    fats = parseInt (calculateFats ());
+    carbs = parseInt (calculateCarbs ());
+  };
+
+  const calculateKcal = () => {
+    const {gender, wheight, height, activity} = userData;
+    let BMR = 0;
+    if (gender == 1)
+      BMR = parseInt (10 * wheight + 6.25 * height - 5 * age + 5);
+    else BMR = parseInt (10 * wheight + 6.25 * height - 5 * age - 161);
+
+    let TDEE = parseInt (BMR * activity);
+
+    if (goalSelected == 1) return TDEE - deficit * 1000;
+    if (goalSelected == 2) return TDEE;
+    if (goalSelected == 3) return TDEE + deficit * 1000;
+  };
+
+  const calculateProtein = () => {
+    const {gender, wheight, activity} = userData;
+    if (goalSelected == 1)
+      return gender == 1
+        ? 1.5 * activity * wheight
+        : 1.5 * activity * wheight * 0.9;
+    if (goalSelected == 2)
+      return gender == 1
+        ? 1.3 * activity * wheight
+        : 1.3 * activity * wheight * 0.9;
+    if (goalSelected == 3)
+      return gender == 1
+        ? 1 * activity * wheight
+        : 1 * activity * wheight * 0.9;
+  };
+
+  const calculateFats = () => {
+    const {gender, wheight, activity} = userData;
+    if (goalSelected == 1)
+      return gender == 2
+        ? 1 * wheight * (activity / 2)
+        : 1 * wheight * (activity / 2) * 0.8;
+
+    if (goalSelected == 2)
+      return gender == 2
+        ? 1.3 * wheight * (activity / 2)
+        : 1.3 * wheight * (activity / 2) * 0.8;
+    if (goalSelected == 3)
+      return gender == 2
+        ? 1.7 * wheight * (activity / 2)
+        : 1.7 * wheight * (activity / 2) * 0.8;
+  };
+
+  const calculateCarbs = () => {
+    if (4 * protein - 9 * fats < kcal)
+      return (kcal - 4 * protein - 9 * fats) / 4;
+    else {
+      protein = protein - (4 * protein - 9 * fats - kcal) * 4;
+      return 0;
     }
   };
 
   const radioChange = event => {
     setGoalSelected (event.target.value);
-    currentUserSnapshot (user).then (r => setUserData (r));
   };
+
+  const radioChangeSecond = event => {
+    setDeficit (event.target.value);
+  };
+
+  useEffect (
+    () => {
+      currentUserSnapshot (user).then (r => {
+        if (r) {
+          setUserData (r);
+        }
+      });
+    },
+    [user]
+  );
 
   return (
     <div className="configure-macros-container">
@@ -69,7 +170,6 @@ const ConfigureMacrosForm = () => {
             onChange={radioChange}
             name="goal"
             value="1"
-            checked={goalSelected == 1 ? true : false}
           />
           <FormInput
             label="Maintain Wheight"
@@ -77,7 +177,6 @@ const ConfigureMacrosForm = () => {
             onChange={radioChange}
             name="goal"
             value="2"
-            checked={goalSelected == 2 ? true : false}
           />
           <FormInput
             label="Gain Wheight"
@@ -85,15 +184,86 @@ const ConfigureMacrosForm = () => {
             onChange={radioChange}
             name="goal"
             value="3"
-            checked={goalSelected == 3 ? true : false}
           />
 
-          <Button type="submit">
-            GET MACROS
-          </Button>
-
         </div>
+        <div>
+          {goalSelected == 1
+            ? <div>
+                <h3>
+                  How much wheight do you want to lose per week?{' '}
+                </h3>
+                <FormInput
+                  label="0.3 kg/week"
+                  type="radio"
+                  onChange={radioChangeSecond}
+                  name="goal"
+                  value="0.3"
+                />
+                <FormInput
+                  label="0.5 kg/week"
+                  type="radio"
+                  onChange={radioChangeSecond}
+                  name="goal"
+                  value="0.5"
+                />
+                <FormInput
+                  label="0.7 kg/week"
+                  type="radio"
+                  onChange={radioChangeSecond}
+                  name="goal"
+                  value="0.7"
+                />
+                <FormInput
+                  label="1 kg/week"
+                  type="radio"
+                  onChange={radioChangeSecond}
+                  name="goal"
+                  value="1"
+                />
+              </div>
+            : null}
+        </div>
+        {goalSelected == 3
+          ? <div>
+              <h3>
+                How much wheight do you want to gain per week?{' '}
+              </h3>
+              <FormInput
+                label="0.3 kg/week"
+                type="radio"
+                onChange={radioChangeSecond}
+                name="goal"
+                value="0.3"
+              />
+              <FormInput
+                label="0.5 kg/week"
+                type="radio"
+                onChange={radioChangeSecond}
+                name="goal"
+                value="0.5"
+              />
+              <FormInput
+                label="0.7 kg/week"
+                type="radio"
+                onChange={radioChangeSecond}
+                name="goal"
+                value="0.7"
+              />
+              <FormInput
+                label="1 kg/week"
+                type="radio"
+                onChange={radioChangeSecond}
+                name="goal"
+                value="1"
+              />
+            </div>
+          : null}
+        <Button type="submit">
+          GET MACROS
+        </Button>
       </form>
+
     </div>
   );
 };
