@@ -8,7 +8,7 @@ const FormInput = ({label, ...otherProps}) => {
       {otherProps.type != 'radio'
         ? label &&
             <label
-              className={`${otherProps.value.length ? 'shrink' : ''} form-input-label`}
+              className={`${otherProps.value ? 'shrink' : ''} form-input-label`}
             >
               {label}
             </label>

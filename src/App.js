@@ -6,6 +6,8 @@ import Authentication from './routes/authentication/authentication.component';
 import EditUser from './routes/edit-user/edit-user.component';
 import Food from './routes/food/food.component';
 import Diet from './routes/diet/diet.component';
+import ConfigureMacros
+  from './components/configure-macros-form/configure-macros-form.component';
 
 const App = () => {
   return (
@@ -16,6 +18,7 @@ const App = () => {
         <Route path="auth" element={<Authentication />} />
         <Route path="edit-user" element={<EditUser />} />
         <Route path="diet" element={<Diet />} />
+        <Route path="configure-macros" element={<ConfigureMacros />} />
       </Route>
     </Routes>
   );

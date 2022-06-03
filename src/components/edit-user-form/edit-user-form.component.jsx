@@ -1,4 +1,5 @@
-import {useState, useEffect} from 'react';
+import {useState, useEffect, useContext} from 'react';
+import {useNavigate} from 'react-router-dom';
 
 import FormInput from '../form-input/form-input.component';
 import Button from '../button/button.component';
@@ -12,42 +13,53 @@ import {
 import {getAuth} from 'firebase/auth';
 
 import './edit-user-form.styles.scss';
+import {UserContext} from '../../contexts/user.context';
 
 let defaultFormFields = {
-  age: '',
   gender: '',
   wheight: '',
   height: '',
   activity: '',
 };
 
-const EditUserForm = () => {
-  const auth = getAuth ();
-  const user = auth.currentUser;
+const getAge = require ('get-age');
 
-  const [verify, setVerify] = useState (false);
+const EditUserForm = () => {
+  //const auth = getAuth ();
+
+  const navigate = useNavigate ();
 
   const [formFields, setFormFields] = useState (defaultFormFields);
-  const {age, gender, wheight, height, activity} = formFields;
+  const {gender, wheight, height, activity} = formFields;
   const [genderSelected, setGenderSelected] = useState (null);
   const [activitySelected, setActivitySelected] = useState (null);
+  const {currentUser} = useContext (UserContext);
+
+  const user = currentUser;
+
+  let age = 0;
 
   const resetFormFields = () => {
-    setFormFields (defaultFormFields);
+    setFormFields (formFields);
+  };
+
+  const navigateToConfigureMacros = () => {
+    navigate ('/configure-macros');
   };
 
   const handleSubmit = async event => {
     event.preventDefault ();
     resetFormFields ();
+
     try {
       await editUserDocumentFromAuth (user, {
-        age,
         gender,
         wheight,
         height,
         activity,
       });
       console.log ('edited succesfully');
+      navigateToConfigureMacros ();
     } catch (error) {
       console.log ('user editing encountered an error', error);
     }
@@ -72,22 +84,20 @@ const EditUserForm = () => {
 
   useEffect (
     () => {
-      currentUserData (user).then (r => setVerify (r));
+      currentUserSnapshot (user).then (r => {
+        if (r) {
+          setFormFields (r);
+          currentUserSnapshot (user).then (r => setGenderSelected (r.gender));
+          currentUserSnapshot (user).then (r => {
+            setActivitySelected (r.activity);
+            age = getAge (r.birthday);
+            // console.log (age);
+          });
+        }
+      });
     },
-    [verify]
+    [user]
   );
-
-  useEffect (
-    () => {
-      currentUserSnapshot (user).then (r => setFormFields (r));
-    },
-    [currentUserData]
-  );
-
-  useEffect (() => {
-    currentUserSnapshot (user).then (r => setGenderSelected (r.gender));
-    currentUserSnapshot (user).then (r => setActivitySelected (r.activity));
-  }, []);
 
   return (
     <div className="edit-user-container">
@@ -117,47 +127,47 @@ const EditUserForm = () => {
         <div>
           <h4>Choose Activity Level</h4>
           <FormInput
-            label="1-3 times per week (low)"
+            label="Sedentary (little to no exercise + work a desk job)"
             type="radio"
             onChange={radioChangeActivity}
             name="activity"
-            value="1"
-            checked={activitySelected == 1 ? true : false}
+            value="1.2"
+            checked={activitySelected == 1.2 ? true : false}
           />
           <FormInput
-            label="3-4 times per week (medium)"
+            label="Lightly Active (light exercise 1-3 days / week)"
             type="radio"
             onChange={radioChangeActivity}
             name="activity"
-            value="2"
-            checked={activitySelected == 2 ? true : false}
+            value="1.375"
+            checked={activitySelected == 1.375 ? true : false}
           />
           <FormInput
-            label="4-5 times per week (high)"
+            label="Moderately Active (moderate exercise 3-5 days / week)"
             type="radio"
             onChange={radioChangeActivity}
             name="activity"
-            value="3"
-            checked={activitySelected == 3 ? true : false}
+            value="1.55"
+            checked={activitySelected == 1.55 ? true : false}
           />
           <FormInput
-            label="6-7 times per week (verry high)"
+            label="Very Active (heavy exercise 6-7 days / week) "
             type="radio"
             onChange={radioChangeActivity}
             name="activity"
-            value="4"
-            checked={activitySelected == 4 ? true : false}
+            value="1.725"
+            checked={activitySelected == 1.725 ? true : false}
+          />
+          <FormInput
+            label="Extremely Active (strenuous training 2x / day) "
+            type="radio"
+            onChange={radioChangeActivity}
+            name="activity"
+            value="1.9"
+            checked={activitySelected == 1.9 ? true : false}
           />
         </div>
 
-        <FormInput
-          label="Age"
-          type="number"
-          onChange={handleChange}
-          name="age"
-          value={age}
-          required
-        />
         <FormInput
           label="Wheight (in Kg)"
           type="number"
@@ -176,7 +186,7 @@ const EditUserForm = () => {
         />
 
         <Button type="submit">
-          {`${verify ? 'Edit' : 'Configure'}`}
+          Configure
         </Button>
       </form>
     </div>

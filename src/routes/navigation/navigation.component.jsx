@@ -21,19 +21,6 @@ import './navigation.styles.scss';
 const Navigation = () => {
   const {currentUser} = useContext (UserContext);
   const {isCartOpen} = useContext (CartContext);
-  const [displayName, setDisplayName] = useState (null);
-
-  const user = currentUser;
-
-  const [verify, setVerify] = useState (false);
-
-  useEffect (
-    () => {
-      currentUserData (user).then (r => setVerify (r));
-      currentUserSnapshot (user).then (r => setDisplayName (r.displayName));
-    },
-    [currentUser]
-  );
 
   return (
     <Fragment>
@@ -41,9 +28,10 @@ const Navigation = () => {
         <Link className="logo-container" to="/">
           <DietPlannerLogo className="logo" />
         </Link>
+
         <div className="nav-links-container">
-          <Link className="nav-link" to="/">
-            Hi {displayName}!
+          <Link className="nav-link" to="/configure-macros">
+            CONFIGURE MACROS
           </Link>
           <Link className="nav-link" to="/auth">
             SETTINGS
@@ -61,7 +49,7 @@ const Navigation = () => {
 
           {currentUser
             ? <Link className="nav-link" to="/edit-user">
-                {`${verify ? 'EDIT USER' : 'CONFIGURE USER'}`}
+                CONFIGURE USER
               </Link>
             : null}
           <CartIcon />

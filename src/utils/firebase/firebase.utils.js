@@ -94,18 +94,12 @@ export const editUserDocumentFromAuth = async (
   const userSnapshot = await getDoc (userDocRef);
 
   if (userSnapshot.exists ()) {
-    const {age, gender, wheight, height, activity} = additionalInformation;
     try {
       await updateDoc (userDocRef, {
-        age,
-        gender,
-        wheight,
-        height,
-        activity,
         ...additionalInformation,
       });
     } catch (error) {
-      console.log ('errore editing the user', error.message);
+      console.log ('error editing the user', error.message);
     }
   }
 };
@@ -143,7 +137,13 @@ export const currentUserData = async userAuth => {
 
   const userSnapshot = await getDoc (userDocRef);
 
-  if (userSnapshot.data ().age) return true;
+  if (
+    userSnapshot.data ().wheight &&
+    userSnapshot.data ().height &&
+    userSnapshot.data ().activity &&
+    userSnapshot.data ().gender
+  )
+    return true;
   else return false;
 };
 

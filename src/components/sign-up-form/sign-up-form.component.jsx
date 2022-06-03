@@ -1,7 +1,10 @@
-import {useState} from 'react';
+import {useState, useRef} from 'react';
 
 import FormInput from '../form-input/form-input.component';
 import Button from '../button/button.component';
+import DatePicker from 'react-datepicker';
+
+import 'react-datepicker/dist/react-datepicker.css';
 
 import {
   createAuthUserWithEmailAndPassword,
@@ -21,6 +24,7 @@ const defaultFormFields = {
 const SignUpForm = () => {
   const [formFields, setFormFields] = useState (defaultFormFields);
   const {displayName, email, password, confirmPassword} = formFields;
+  const inputDate = useRef ();
 
   const resetFormFields = () => {
     setFormFields (defaultFormFields);
@@ -38,13 +42,18 @@ const SignUpForm = () => {
       const {user} = await createAuthUserWithEmailAndPassword (email, password);
       await createUserDocumentFromAuth (user, {
         displayName,
-        age: '',
         gender: '',
         wheight: '',
         height: '',
         activity: '',
+        birthday: inputDate.current.value,
+        kcal: '',
+        protein: '',
+        carbs: '',
+        fats: '',
       });
       resetFormFields ();
+      inputDate.current.value = '';
     } catch (error) {
       if (error.code == 'auth/email-already-in-use') {
         alert ('Cannot create user, email already in use');
@@ -100,6 +109,17 @@ const SignUpForm = () => {
           name="confirmPassword"
           value={confirmPassword}
         />
+
+        <label>When were you born?</label>
+        <input
+          className="form-input"
+          type="date"
+          required
+          ref={inputDate}
+          onChange={handleChange}
+          name="birthday"
+        />
+
         <Button type="submit">Sign Up</Button>
       </form>
     </div>
