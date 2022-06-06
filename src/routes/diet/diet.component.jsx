@@ -35,9 +35,6 @@ const Diet = () => {
         <DietItem key={cartItem.id} cartItem={cartItem} />
       ))}
       <br />
-      <Button onClick={goToFoodHandler}>
-        Add Foods
-      </Button>
       <span className="total">Total Kcals: {cartCount}</span>
     </div>
   );

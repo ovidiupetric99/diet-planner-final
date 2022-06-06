@@ -2,7 +2,7 @@ import {useState, useRef} from 'react';
 
 import FormInput from '../form-input/form-input.component';
 import Button from '../button/button.component';
-import DatePicker from 'react-datepicker';
+import {useNavigate} from 'react-router-dom';
 
 import 'react-datepicker/dist/react-datepicker.css';
 
@@ -25,6 +25,12 @@ const SignUpForm = () => {
   const [formFields, setFormFields] = useState (defaultFormFields);
   const {displayName, email, password, confirmPassword} = formFields;
   const inputDate = useRef ();
+
+  const navigate = useNavigate ();
+
+  const navigateToEditUser = () => {
+    navigate ('/edit-user');
+  };
 
   const resetFormFields = () => {
     setFormFields (defaultFormFields);
@@ -54,6 +60,7 @@ const SignUpForm = () => {
       });
       resetFormFields ();
       inputDate.current.value = '';
+      navigateToEditUser ();
     } catch (error) {
       if (error.code == 'auth/email-already-in-use') {
         alert ('Cannot create user, email already in use');

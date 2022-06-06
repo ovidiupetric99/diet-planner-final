@@ -1,6 +1,21 @@
 .products-container {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    display: flex;
     column-gap: 10px;
-    row-gap: 50px;
+
+    .food-form-input {
+        text-align: center;
+    }
+
+    .search-button {
+        background-color: white;
+
+        .search-icon {
+            width: 30%;
+            height: 30%;
+        }
+
+    }
+
+
+
 }

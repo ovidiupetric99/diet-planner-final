@@ -15,7 +15,6 @@ const FormInput = ({label, ...otherProps}) => {
         : <label className="form-input-radio-label">
             {label}
           </label>}
-
     </div>
   );
 };
