@@ -1,15 +1,13 @@
 import './cart-item.styles.scss';
 
-const CartItem = ({cartItem}) => {
-  const {name, imageUrl, quantity} = cartItem;
+const CartItem = ({foodItem}) => {
   return (
     <div className="cart-item-container">
-
-      <img src={imageUrl} alt={`${name}`} />
       <div className="item-details">
-        <span className="name">{name}</span>
+        <span className="name">{foodItem.name}</span>
+        <span>{`${(foodItem.quantity * 100).toFixed (0)} grams`}</span>
       </div>
-      <span>{`${quantity} x servings`}</span>
+
     </div>
   );
 };

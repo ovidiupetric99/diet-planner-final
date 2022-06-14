@@ -3,30 +3,66 @@
     min-height: 90vh;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    margin: 50px auto 0;
+    //align-items: center;
+    margin: 10px auto 0;
 
     .checkout-header {
         width: 100%;
-        padding: 10px 0;
         display: flex;
         justify-content: space-between;
         border-bottom: 1px solid darkgrey;
 
         .header-block {
             text-transform: capitalize;
-            width: 17%;
+
+
+            &:first-child {
+                float: left;
+                width: 40%;
+                font-size: 30px;
+                font-weight: bolder;
+            }
+
 
             &:last-child {
-                width: 30%;
+                float: right;
             }
+
+            &:not(:first-child) {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+        }
+
+
+    }
+
+    .remaining-calories {
+        margin: 10px;
+        margin-bottom: 20px;
+        display: flex;
+
+
+        .calories-math {
+            padding-right: 30px;
+
+
+            &:not(:first-child) {
+                padding-left: 30px;
+            }
+        }
+
+        .span-math {
+            margin-top: -20px;
         }
     }
 
-    .total {
+
+    .add-food-btn-container {
+        width: 200px;
+        margin: auto;
         margin-top: 30px;
-        margin-left: auto;
-        font-size: 36px;
     }
 
 }

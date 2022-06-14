@@ -1,7 +1,7 @@
-import {useContext} from 'react';
+import {useContext, useEffect} from 'react';
 import {useNavigate} from 'react-router-dom';
 
-import {CartContext} from '../../contexts/cart.context';
+import {DietContext} from '../../contexts/diet.context';
 
 import Button from '../button/button.component';
 import CartItem from '../cart-item/cart-item.component';
@@ -9,7 +9,7 @@ import CartItem from '../cart-item/cart-item.component';
 import './cart-dropdown.styles.scss';
 
 const CartDropdown = () => {
-  const {cartItems} = useContext (CartContext);
+  const {foodItems} = useContext (DietContext);
   const navigate = useNavigate ();
 
   const goToDietHandler = () => {
@@ -19,7 +19,9 @@ const CartDropdown = () => {
   return (
     <div className="cart-dropdown-container">
       <div className="cart-items">
-        {cartItems.map (item => <CartItem key={item.id} cartItem={item} />)}
+        {foodItems.map ((foodItem, i) => (
+          <CartItem key={i} foodItem={foodItem} />
+        ))}
       </div>
       <Button onClick={goToDietHandler}>Go to edit diet</Button>
     </div>

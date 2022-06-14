@@ -1,46 +1,57 @@
 import {Fragment, useContext, useState, useEffect} from 'react';
-import {Outlet, Link} from 'react-router-dom';
+import {Outlet, Link, useNavigate} from 'react-router-dom';
 
 import CartIcon from '../../components/cart-icon/cart-icon.component';
 import CartDropdown
   from '../../components/cart-dropdown/cart-dropdown.component';
 
 import {UserContext} from '../../contexts/user.context';
-import {CartContext} from '../../contexts/cart.context';
+import {DietContext} from '../../contexts/diet.context';
 
-import {ReactComponent as DietPlannerLogo} from '../../assets/diet-planner.svg';
+import DietPlannerLogo from '../../assets/oviboss.png';
 import {
   currentUserSnapshot,
   signOutUser,
 } from '../../utils/firebase/firebase.utils.js';
-import {getAuth} from 'firebase/auth';
-import {currentUserData} from '../../utils/firebase/firebase.utils.js';
 
 import './navigation.styles.scss';
 
 const Navigation = () => {
   const {currentUser} = useContext (UserContext);
-  const {isCartOpen} = useContext (CartContext);
+  const {isDietOpen} = useContext (DietContext);
+  const navigate = useNavigate ();
+
+  const handlerSignOut = () => {
+    signOutUser ();
+    navigate ('/auth');
+  };
 
   return (
     <Fragment>
       <div className="navigation">
         <Link className="logo-container" to="/">
-          <DietPlannerLogo className="logo" />
+          <img src={DietPlannerLogo} alt="logo" />
         </Link>
-
         <div className="nav-links-container">
-          <Link className="nav-link" to="/configure-macros">
-            CONFIGURE MACROS
-          </Link>
-          <Link className="nav-link" to="/auth">
-            SETTINGS
-          </Link>
-          <Link className="nav-link" to="/food">
-            FOOD
-          </Link>
           {currentUser
-            ? <span className="nav-link" onClick={signOutUser}>
+            ? <Link className="nav-link" to="/configure-macros">
+                SET GOAL
+              </Link>
+            : null}
+          {currentUser
+            ? <Link className="nav-link" to="/auth">
+                SETTINGS
+              </Link>
+            : null}
+
+          {currentUser
+            ? <Link className="nav-link" to="/food">
+                FOOD
+              </Link>
+            : null}
+
+          {currentUser
+            ? <span className="nav-link" onClick={handlerSignOut}>
                 SIGN OUT
               </span>
             : <Link className="nav-link" to="/auth">
@@ -52,9 +63,13 @@ const Navigation = () => {
                 CONFIGURE USER
               </Link>
             : null}
-          <CartIcon />
+          {currentUser &&
+            <Link className="nav-link" to="/diet">
+              <CartIcon />
+            </Link>}
+
         </div>
-        {isCartOpen && <CartDropdown />}
+        {isDietOpen && <CartDropdown />}
       </div>
       <Outlet />
     </Fragment>

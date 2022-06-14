@@ -1,21 +1,21 @@
-import {useContext, useState} from 'react';
+import {useContext, useState, useEffect} from 'react';
 
-import {ProductsContext} from '../../contexts/products.context';
 import Button from '../../components/button/button.component';
 import FormInput from '../../components/form-input/form-input.component';
 import FoodContainer
   from '../../components/food-container/food-container.component';
+import FoodDetails from '../../components/food-details/food-details.component';
 
 import './food.styles.scss';
+import {FoodContext} from '../../contexts/food.context';
 
 const defaultParams = {
   api_key: 'NCEtfwf5O4G1bGJoqMRWDJg44gc5oEmX28t4GBlE',
   querry: '',
-  //  dataType: ['Foundation'],
 };
 
 const Food = () => {
-  const {products} = useContext (ProductsContext);
+  const {food, setFood} = useContext (FoodContext);
   const [value, setValue] = useState ('');
 
   const [allFoods, setAllFoods] = useState (null);
@@ -44,6 +44,10 @@ const Food = () => {
     setValue (event.target.value);
   };
 
+  useEffect (() => {
+    setFood (null);
+  }, []);
+
   return (
     <div className="products-container">
       <div>
@@ -53,9 +57,11 @@ const Food = () => {
             search
           </Button>
         </form>
+
         <FoodContainer foods={allFoods} />
       </div>
-      <div />
+
+      {food && <FoodDetails food={food} />}
     </div>
   );
 };

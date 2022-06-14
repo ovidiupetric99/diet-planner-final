@@ -1,10 +1,16 @@
 .food-element {
 
+    list-style-type: none;
+    border-bottom: 1px solid lightgray;
+    margin: 5px;
+    padding: 5px;
+
+    .one-line {
+        display: flex;
+    }
+
     &:hover {
         cursor: pointer;
         background-color: lightgray;
     }
-
-    list-style-type: none;
-    margin:2px;
 }

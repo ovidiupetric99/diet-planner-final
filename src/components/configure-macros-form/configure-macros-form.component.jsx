@@ -1,5 +1,5 @@
 import {useState, useEffect, useContext} from 'react';
-import {useNavigate} from 'react-router-dom';
+import {useNavigate, Link} from 'react-router-dom';
 
 import FormInput from '../form-input/form-input.component';
 import Button from '../button/button.component';
@@ -118,7 +118,7 @@ const ConfigureMacrosForm = () => {
     const {gender, wheight, activity} = userData;
     if (goalSelected == 1)
       return gender == 2
-        ? 1 * wheight * (activity / 2)
+        ? 1 * wheight * (activity / 2) * 1
         : 1 * wheight * (activity / 2) * 0.8;
 
     if (goalSelected == 2)
@@ -161,109 +161,116 @@ const ConfigureMacrosForm = () => {
 
   return (
     <div className="configure-macros-container">
-      <h2>What is your weight goal?</h2>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <FormInput
-            label="Lose Wheight"
-            type="radio"
-            onChange={radioChange}
-            name="goal"
-            value="1"
-          />
-          <FormInput
-            label="Maintain Wheight"
-            type="radio"
-            onChange={radioChange}
-            name="goal"
-            value="2"
-          />
-          <FormInput
-            label="Gain Wheight"
-            type="radio"
-            onChange={radioChange}
-            name="goal"
-            value="3"
-          />
-
-        </div>
-        <div>
-          {goalSelected == 1
+      {userData
+        ? userData.wheight
             ? <div>
-                <h3>
-                  How much wheight do you want to lose per week?{' '}
-                </h3>
-                <FormInput
-                  label="0.3 kg/week"
-                  type="radio"
-                  onChange={radioChangeSecond}
-                  name="goal"
-                  value="0.3"
-                />
-                <FormInput
-                  label="0.5 kg/week"
-                  type="radio"
-                  onChange={radioChangeSecond}
-                  name="goal"
-                  value="0.5"
-                />
-                <FormInput
-                  label="0.7 kg/week"
-                  type="radio"
-                  onChange={radioChangeSecond}
-                  name="goal"
-                  value="0.7"
-                />
-                <FormInput
-                  label="1 kg/week"
-                  type="radio"
-                  onChange={radioChangeSecond}
-                  name="goal"
-                  value="1"
-                />
-              </div>
-            : null}
-        </div>
-        {goalSelected == 3
-          ? <div>
-              <h3>
-                How much wheight do you want to gain per week?{' '}
-              </h3>
-              <FormInput
-                label="0.3 kg/week"
-                type="radio"
-                onChange={radioChangeSecond}
-                name="goal"
-                value="0.3"
-              />
-              <FormInput
-                label="0.5 kg/week"
-                type="radio"
-                onChange={radioChangeSecond}
-                name="goal"
-                value="0.5"
-              />
-              <FormInput
-                label="0.7 kg/week"
-                type="radio"
-                onChange={radioChangeSecond}
-                name="goal"
-                value="0.7"
-              />
-              <FormInput
-                label="1 kg/week"
-                type="radio"
-                onChange={radioChangeSecond}
-                name="goal"
-                value="1"
-              />
-            </div>
-          : null}
-        <Button type="submit">
-          GET MACROS
-        </Button>
-      </form>
+                <h2>What is your weight goal?</h2>
+                <form onSubmit={handleSubmit}>
+                  <div>
+                    <FormInput
+                      label="Lose Wheight"
+                      type="radio"
+                      onChange={radioChange}
+                      name="goal"
+                      value="1"
+                    />
+                    <FormInput
+                      label="Maintain Wheight"
+                      type="radio"
+                      onChange={radioChange}
+                      name="goal"
+                      value="2"
+                    />
+                    <FormInput
+                      label="Gain Wheight"
+                      type="radio"
+                      onChange={radioChange}
+                      name="goal"
+                      value="3"
+                    />
 
+                  </div>
+                  <div>
+                    {goalSelected == 1
+                      ? <div>
+                          <h3>
+                            How much wheight do you want to lose per week?{' '}
+                          </h3>
+                          <FormInput
+                            label="0.3 kg/week"
+                            type="radio"
+                            onChange={radioChangeSecond}
+                            name="goal"
+                            value="0.3"
+                          />
+                          <FormInput
+                            label="0.5 kg/week"
+                            type="radio"
+                            onChange={radioChangeSecond}
+                            name="goal"
+                            value="0.5"
+                          />
+                          <FormInput
+                            label="0.7 kg/week"
+                            type="radio"
+                            onChange={radioChangeSecond}
+                            name="goal"
+                            value="0.7"
+                          />
+                          <FormInput
+                            label="1 kg/week"
+                            type="radio"
+                            onChange={radioChangeSecond}
+                            name="goal"
+                            value="1"
+                          />
+                        </div>
+                      : null}
+                  </div>
+                  {goalSelected == 3
+                    ? <div>
+                        <h3>
+                          How much wheight do you want to gain per week?{' '}
+                        </h3>
+                        <FormInput
+                          label="0.3 kg/week"
+                          type="radio"
+                          onChange={radioChangeSecond}
+                          name="goal"
+                          value="0.3"
+                        />
+                        <FormInput
+                          label="0.5 kg/week"
+                          type="radio"
+                          onChange={radioChangeSecond}
+                          name="goal"
+                          value="0.5"
+                        />
+                        <FormInput
+                          label="0.7 kg/week"
+                          type="radio"
+                          onChange={radioChangeSecond}
+                          name="goal"
+                          value="0.7"
+                        />
+                        <FormInput
+                          label="1 kg/week"
+                          type="radio"
+                          onChange={radioChangeSecond}
+                          name="goal"
+                          value="1"
+                        />
+                      </div>
+                    : null}
+                  <Button type="submit">
+                    GET MACROS
+                  </Button>
+                </form>
+              </div>
+            : <Link className="go-config-user-link" to="/edit-user">
+                <h1>Go configure user data first!</h1>
+              </Link>
+        : null}
     </div>
   );
 };

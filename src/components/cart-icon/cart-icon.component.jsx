@@ -1,20 +1,24 @@
 import {useContext} from 'react';
 
-import {ReactComponent as ShoppingIcon} from '../../assets/shopping-bag.svg';
+import {DietContext} from '../../contexts/diet.context';
 
-import {CartContext} from '../../contexts/cart.context';
+import {ReactComponent as PlateIcon} from '../../assets/farfurieneagra.svg';
 
 import './cart-icon.styles.scss';
 
 const CartIcon = () => {
-  const {isCartOpen, setIsCartOpen, cartCount} = useContext (CartContext);
+  const {isDietOpen, setIsDietOpen, dietCount} = useContext (DietContext);
 
-  const toggleIsCartOpen = () => setIsCartOpen (!isCartOpen);
+  const toggleIsDietOpen = () => setIsDietOpen (!isDietOpen);
 
   return (
-    <div className="cart-icon-container" onClick={toggleIsCartOpen}>
-      <ShoppingIcon className="shopping-icon" />
-      <span className="item-count">{cartCount}</span>
+    <div className="cart-icon-container" onClick={toggleIsDietOpen}>
+      <PlateIcon className="plate-icon" />
+      {dietCount == 0
+        ? <span className="item-count">{dietCount.toFixed (0)} kcal</span>
+        : <div className="item-count">
+            <span>{dietCount.toFixed (0)}</span>
+          </div>}
     </div>
   );
 };

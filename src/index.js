@@ -6,18 +6,18 @@ import './index.scss';
 import App from './App';
 
 import {UserProvider} from './contexts/user.context';
-import {ProductsProvider} from './contexts/products.context';
-import {CartProvider} from './contexts/cart.context';
+import {FoodProvider} from './contexts/food.context';
+import {DietProvider} from './contexts/diet.context';
 
 const root = ReactDOM.createRoot (document.getElementById ('root'));
 root.render (
   <BrowserRouter>
     <UserProvider>
-      <ProductsProvider>
-        <CartProvider>
+      <FoodProvider>
+        <DietProvider>
           <App />
-        </CartProvider>
-      </ProductsProvider>
+        </DietProvider>
+      </FoodProvider>
     </UserProvider>
   </BrowserRouter>
 );

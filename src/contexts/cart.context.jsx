@@ -3,14 +3,14 @@ import {createContext, useState, useEffect} from 'react';
 const addCartIem = (cartItems, productToAdd) => {
   //find if cartItems contains productToAdd
   const existingCartItem = cartItems.find (
-    cartItem => cartItem.id == productToAdd.id
+    cartItem => cartItem.fdcId == productToAdd.fdcId
   );
 
   // If found, increment quantity
   if (existingCartItem) {
     return cartItems.map (
       cartItem =>
-        cartItem.id == productToAdd.id
+        cartItem.fdcId == productToAdd.fdcId
           ? {...cartItem, quantity: cartItem.quantity + 1}
           : cartItem
     );

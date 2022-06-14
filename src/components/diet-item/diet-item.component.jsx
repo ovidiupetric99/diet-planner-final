@@ -1,32 +1,41 @@
-import {useContext} from 'react';
+import {useContext, useEffect} from 'react';
 
-import {CartContext} from '../../contexts/cart.context';
+import {DietContext} from '../../contexts/diet.context';
 
 import './diet-item.styles.scss';
 
-const DietItem = ({cartItem}) => {
-  const {name, kcal, quantity} = cartItem;
-  const {clearItemFromCart, addItemToCart, removeItemFromCart} = useContext (
-    CartContext
+const DietItem = ({foodItem}) => {
+  const {name, quantity, kcal, protein, carbs, fat} = foodItem;
+  const {foodItems} = useContext (DietContext);
+  const {clearFoodFromDiet, addFoodToDiet, removeFoodFromDiet} = useContext (
+    DietContext
   );
 
-  const clearItemHandler = () => {
-    clearItemFromCart (cartItem);
+  const clearFoodHandler = () => {
+    clearFoodFromDiet (foodItem.id);
   };
-
-  const addItemHandler = () => addItemToCart (cartItem);
-  const removeItemHandler = () => removeItemFromCart (cartItem);
 
   return (
     <div className="checkout-item-container">
-      <span className="name">{name}</span>
-      <span className="quantity">
-        <div className="arrow" onClick={removeItemHandler}>&#10094;</div>
-        <span className="value">{quantity}</span>
-        <div className="arrow" onClick={addItemHandler}>&#10095;</div>
-      </span>
-      <span className="price">{quantity * kcal}</span>
-      <div className="remove-button" onClick={clearItemHandler}>
+      <div className="macros-data">
+        <span>
+          {name}{', '}{quantity * 100}G
+        </span>
+      </div>
+      <div className="macros-data">
+        <span>{(quantity * kcal).toFixed (0)}</span>
+      </div>
+      <div className="macros-data">
+        <span>{(quantity * protein).toFixed (0)}</span>
+      </div>
+      <div className="macros-data">
+        <span>{(quantity * carbs).toFixed (0)}</span>
+      </div>
+      <div className="macros-data">
+        <span>{(quantity * fat).toFixed (0)}</span>
+      </div>
+
+      <div className="remove-button" onClick={clearFoodHandler}>
         &#10005;
       </div>
     </div>

@@ -1,0 +1,89 @@
+.food-information {
+    margin-top: 210px;
+    height: 500px;
+    width: 500px;
+    padding: 20px;
+    background-color: whitesmoke;
+
+
+    .title-container {
+        text-align: center;
+        border-bottom: 1px solid lightgray;
+    }
+
+    .input-number {
+        margin: 10px;
+        width: 60px;
+    }
+
+    .float-input {
+        width: 50px;
+        height: 25px;
+    }
+
+    .macros {
+        display: flex;
+        border-bottom: 1px solid lightgray;
+        padding: 5px;
+
+        .element {
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            margin: auto;
+
+            .protein-percentage {
+                color: #B859C0;
+            }
+
+            .carbs-percentage {
+                color: #0ABFC8;
+            }
+
+            .fat-percentage {
+                color: #E58B30;
+            }
+
+            .calories {
+                margin-bottom: -2px;
+                margin-top: -2px;
+            }
+        }
+    }
+
+    .chart {
+        width: 100px;
+    }
+
+    .serving-form {
+        margin-top: 30px;
+        // margin: 20px;
+
+
+        .line {
+            margin: 20px;
+            padding: 5px;
+            border-bottom: 1px solid lightgray;
+
+            .data {
+                float: right;
+            }
+        }
+
+        .button-template {
+            margin: auto;
+            width: 50%;
+            padding: 10px;
+        }
+
+        .info-button {
+            float: right;
+            color: blue;
+            cursor: pointer;
+        }
+
+
+    }
+
+
+}
