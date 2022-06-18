@@ -1,0 +1,65 @@
+.meal-container {
+
+    .checkout-header {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        border-bottom: 1px solid darkgrey;
+
+        .header-block {
+            text-transform: capitalize;
+
+            &:first-child {
+                float: left;
+                width: 40%;
+                font-size: 20px;
+                font-weight: bolder;
+            }
+
+
+            &:last-child {
+                float: right;
+            }
+
+            &:not(:first-child) {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+        }
+    }
+
+    .total-container {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        min-height: 60px;
+        align-items: center;
+        font-size: 13px;
+        margin-top: -20px;
+
+        .macros-data {
+            min-width: 60px;
+
+            &:first-child {
+                width: 40%;
+                float: left;
+                display: flex;
+
+            }
+
+            .add-food-button {
+                color: blue;
+                padding-left: 20px;
+                cursor: pointer;
+            }
+
+            &:not(:first-child) {
+                text-align: center;
+            }
+        }
+
+
+    }
+
+}

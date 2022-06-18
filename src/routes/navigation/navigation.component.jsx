@@ -19,12 +19,26 @@ import './navigation.styles.scss';
 const Navigation = () => {
   const {currentUser} = useContext (UserContext);
   const {isDietOpen} = useContext (DietContext);
+  const [userName, setUserName] = useState (null);
   const navigate = useNavigate ();
+
+  const user = currentUser;
 
   const handlerSignOut = () => {
     signOutUser ();
     navigate ('/auth');
   };
+
+  useEffect (
+    () => {
+      currentUserSnapshot (user).then (r => {
+        if (r) {
+          setUserName (r.displayName.toUpperCase ());
+        }
+      });
+    },
+    [currentUser]
+  );
 
   return (
     <Fragment>
@@ -45,8 +59,8 @@ const Navigation = () => {
             : null}
 
           {currentUser
-            ? <Link className="nav-link" to="/food">
-                FOOD
+            ? <Link className="nav-link" to="/meals-number">
+                EDIT MEALS NUMBER
               </Link>
             : null}
 
@@ -63,10 +77,21 @@ const Navigation = () => {
                 CONFIGURE USER
               </Link>
             : null}
+          {currentUser
+            ? <Link className="nav-link" to="/user-data">
+                {userName}
+              </Link>
+            : null}
+          {currentUser
+            ? <Link className="nav-link" to="/bmi">
+                See your BMI
+              </Link>
+            : null}
+
           {currentUser &&
-            <Link className="nav-link" to="/diet">
+            <div className="nav-link-icon">
               <CartIcon />
-            </Link>}
+            </div>}
 
         </div>
         {isDietOpen && <CartDropdown />}

@@ -1,68 +1,253 @@
-import {useContext} from 'react';
-import {useNavigate} from 'react-router-dom';
-
-import {DietContext} from '../../contexts/diet.context';
-
+import {useContext, useState, useEffect} from 'react';
 import Button from '../../components/button/button.component';
-import DietItem from '../../components/diet-item/diet-item.component';
+import {
+  userMealsNumber,
+  userTotalMacrosFromDiet,
+  userMacrosGoal,
+} from '../../utils/firebase/firebase.utils';
+import {UserContext} from '../../contexts/user.context';
+import {Chart, ArcElement, Legend, Title, Tooltip} from 'chart.js';
+import ChartDataLabels from 'chartjs-plugin-datalabels';
+import {Pie} from 'react-chartjs-2';
+
+import Meal from '../../components/meal/meal.component';
 
 import './diet.styles.scss';
 
-const Diet = () => {
-  const {foodItems, dietCount} = useContext (DietContext);
-  const navigate = useNavigate ();
+Chart.register (ArcElement, Title, Legend, ChartDataLabels, Tooltip);
 
-  const goToFoodHandler = () => {
-    navigate ('/food');
+const Diet = () => {
+  const {currentUser} = useContext (UserContext);
+  const user = currentUser;
+  const [mealsNumber, setMealsNumber] = useState (null);
+  const [macrosGoal, setMacrosGoal] = useState ({
+    kcal: 0,
+    protein: 0,
+    carbs: 0,
+    fat: 0,
+  });
+  const [totalMacrosPerDay, setTotalMacrosPerDay] = useState ({
+    kcal: 0,
+    protein: 0,
+    carbs: 0,
+    fat: 0,
+  });
+
+  const data = {
+    datasets: [
+      {
+        data: [
+          totalMacrosPerDay.protein,
+          totalMacrosPerDay.carbs,
+          totalMacrosPerDay.fat,
+        ],
+        backgroundColor: ['#B859C0', '#0ABFC8', '#E58B30'],
+      },
+    ],
+    labels: ['Protein ', 'Carbs ', 'Fats '],
+    hoverOffset: 4,
   };
+
+  const options = {
+    plugins: {
+      datalabels: {
+        display: false,
+      },
+    },
+  };
+
+  const handleMealChange = () => {
+    userTotalMacrosFromDiet (user).then (r => {
+      if (r) {
+        setTotalMacrosPerDay (r);
+        userTotalMacrosFromDiet (user).then (r => {
+          if (r) {
+            setTotalMacrosPerDay (r);
+          }
+        });
+      }
+    });
+  };
+  useEffect (
+    () => {
+      userMealsNumber (user).then (r => {
+        if (r) {
+          setMealsNumber (r);
+        }
+      });
+
+      userMacrosGoal (user).then (r => {
+        if (r) {
+          setMacrosGoal (r);
+        }
+      });
+
+      userTotalMacrosFromDiet (user).then (r => {
+        if (r) {
+          setTotalMacrosPerDay (r);
+        }
+      });
+    },
+    [user]
+  );
 
   return (
     <div className="checkout-container">
-      <span>Calories remaining.</span>
+      <span style={{color: 'gray'}}>Calories remaining.</span>
       <div className="remaining-calories">
         <div className="calories-math">
-          <h1>2300</h1>
+          <h1>{macrosGoal.kcal}</h1>
           <span className="span-math">goal</span>
         </div>
         <h1>-</h1>
         <div className="calories-math">
-          <h1>{dietCount.toFixed (0)}</h1>
+          <h1>{totalMacrosPerDay.kcal.toFixed (0)}</h1>
           <span className="span-math">food</span>
         </div>
         <h1>=</h1>
         <div className="calories-math">
-          <h1>{2300 - dietCount.toFixed (0)}</h1>
+          <h1
+            style={{
+              color: `${macrosGoal.kcal - totalMacrosPerDay.kcal.toFixed (0) < 0 ? 'red' : '#03A678'}`,
+            }}
+          >
+            {macrosGoal.kcal - totalMacrosPerDay.kcal.toFixed (0)}
+          </h1>
           <span className="span-math">remaining</span>
         </div>
+      </div>
 
+      {mealsNumber &&
+        [...Array (Number (mealsNumber))].map ((el, i) => (
+          <Meal key={i} value={i + 1} handler={handleMealChange} />
+        ))}
+
+      <div className="total-per-day">
+        <div className="remaining-container">
+          <div className="macros-data-total">
+            <h3>Total per day:</h3>
+          </div>
+          <div className="macros-data-total">
+            <h3>{totalMacrosPerDay.kcal.toFixed (0)}</h3>
+          </div>
+          <div className="macros-data-total">
+            <h3 style={{color: '#B859C0'}}>
+              {totalMacrosPerDay.protein.toFixed (0)}
+            </h3>
+          </div>
+          <div className="macros-data-total">
+            <h3 style={{color: '#0ABFC8'}}>
+              {totalMacrosPerDay.carbs.toFixed (0)}
+            </h3>
+          </div>
+          <div className="macros-data-total">
+            <h3 style={{color: '#E58B30'}}>
+              {totalMacrosPerDay.fat.toFixed (0)}
+            </h3>
+          </div>
+          <div className="macros-data-total">
+            <span />
+          </div>
+        </div>
+        <div className="remaining-container">
+          <div className="macros-data-total">
+            <h3>Daily goal:</h3>
+          </div>
+          <div className="macros-data-total">
+            <h3>{macrosGoal.kcal}</h3>
+          </div>
+          <div className="macros-data-total">
+            <h3>
+              {macrosGoal.protein}
+            </h3>
+          </div>
+          <div className="macros-data-total">
+            <h3>
+              {macrosGoal.carbs}
+            </h3>
+          </div>
+          <div className="macros-data-total">
+            <h3>
+              {macrosGoal.fat}
+            </h3>
+          </div>
+          <div className="macros-data-total">
+            <span />
+          </div>
+        </div>
+        <div className="remaining-container">
+          <div className="macros-data-total">
+            <h3>Remaining:</h3>
+          </div>
+          <div className="macros-data-total">
+            <h3
+              style={{
+                color: `${(macrosGoal.kcal - totalMacrosPerDay.kcal).toFixed (0) < 0 ? 'red' : '#03A678'}`,
+              }}
+            >
+              {(macrosGoal.kcal - totalMacrosPerDay.kcal).toFixed (0)}
+            </h3>
+          </div>
+          <div className="macros-data-total">
+            <h3
+              style={{
+                color: `${(macrosGoal.protein - totalMacrosPerDay.protein).toFixed (0) < 0 ? 'red' : '#03A678'}`,
+              }}
+            >
+              {(macrosGoal.protein - totalMacrosPerDay.protein).toFixed (0)}
+            </h3>
+          </div>
+          <div className="macros-data-total">
+            <h3
+              style={{
+                color: `${(macrosGoal.carbs - totalMacrosPerDay.carbs).toFixed (0) < 0 ? 'red' : '#03A678'}`,
+              }}
+            >
+              {(macrosGoal.carbs - totalMacrosPerDay.carbs).toFixed (0)}
+            </h3>
+          </div>
+          <div className="macros-data-total">
+            <h3
+              style={{
+                color: `${(macrosGoal.fat - totalMacrosPerDay.fat).toFixed (0) < 0 ? 'red' : '#03A678'}`,
+              }}
+            >
+              {(macrosGoal.fat - totalMacrosPerDay.fat).toFixed (0)}
+            </h3>
+          </div>
+          <div className="macros-data-total">
+            <span />
+          </div>
+        </div>
+        <div className="total-container">
+          <div className="macros-data" />
+          <div className="macros-data">
+            <span style={{fontSize: '16px'}}>Kcal</span>
+          </div>
+          <div className="macros-data">
+            <span style={{fontSize: '16px'}}>
+              Protein
+            </span>
+          </div>
+          <div className="macros-data">
+            <span style={{fontSize: '16px'}}>
+              Carbs
+            </span>
+          </div>
+          <div className="macros-data">
+            <span style={{fontSize: '16px'}}>
+              Fat
+            </span>
+          </div>
+          <div className="macros-data">
+            <span />
+          </div>
+        </div>
       </div>
-      <div className="checkout-header">
-        <div className="header-block">
-          <span>Meal 1</span>
-        </div>
-        <div className="header-block">
-          <span>Kcal</span>
-        </div>
-        <div className="header-block">
-          <span>Protein</span>
-        </div>
-        <div className="header-block">
-          <span>Carbs</span>
-        </div>
-        <div className="header-block">
-          <span>Fat</span>
-        </div>
-        <div className="header-block">
-          <span>Remove</span>
-        </div>
-      </div>
-      {foodItems.map ((foodItem, i) => {
-        return <DietItem key={i} foodItem={foodItem} />;
-      })}
-      <br />
-      <div className="add-food-btn-container">
-        <Button onClick={goToFoodHandler}>Add Food</Button>
-      </div>
+      {totalMacrosPerDay.kcal != 0 &&
+        <div className="chart">
+          <Pie data={data} options={options} />
+        </div>}
 
     </div>
   );

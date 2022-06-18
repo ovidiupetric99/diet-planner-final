@@ -44,7 +44,9 @@ const FoodElement = props => {
         {props.foodData.brandName}
       </h4>
       <span>
-        {props.foodData.foodNutrients[3].value}
+        {props.foodData.foodNutrients[3]
+          ? props.foodData.foodNutrients[3].value
+          : 0}
         {' '}
         calories per serving
       </span>

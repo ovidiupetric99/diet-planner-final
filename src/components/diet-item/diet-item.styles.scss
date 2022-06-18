@@ -2,10 +2,11 @@
      width: 100%;
      display: flex;
      justify-content: space-between;
-     min-height: 60px;
+     min-height: 30px;
      border-bottom: 1px solid darkgrey;
-     font-size: 20px;
      align-items: center;
+     font-size: 13px;
+     background-color: #F6F6F6;
 
      .macros-data {
          min-width: 60px;

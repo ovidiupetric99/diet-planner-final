@@ -39,8 +39,8 @@ const ConfigureMacrosForm = () => {
     setFormFields (formFields);
   };
 
-  const navigateToUserData = () => {
-    navigate ('/user-data');
+  const navigateToMealsNumber = () => {
+    navigate ('/meals-number');
   };
 
   const handleSubmit = async event => {
@@ -71,9 +71,9 @@ const ConfigureMacrosForm = () => {
           '\nfats: ' +
           fats
       );
-      navigateToUserData ();
+      navigateToMealsNumber ();
     } catch (error) {
-      console.log ('macros configuring ecnountered and error', error);
+      console.log ('macros configuring ecnountered an error', error);
     }
   };
 
@@ -263,7 +263,7 @@ const ConfigureMacrosForm = () => {
                       </div>
                     : null}
                   <Button type="submit">
-                    GET MACROS
+                    SET GOAL
                   </Button>
                 </form>
               </div>

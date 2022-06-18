@@ -1,21 +1,42 @@
 import './food-details.styles.scss';
 import Button from '../button/button.component';
-import FloatInput from 'react-float-input';
 import Modal from '../Modal/modal.component';
+import {
+  collection,
+  query,
+  getDocs,
+  getFirestore,
+  setDoc,
+  doc,
+  addDoc,
+  writeBatch,
+  updateDoc,
+} from 'firebase/firestore';
 
-import {useContext, useState, useEffect, useInsertionEffect} from 'react';
+import {
+  useContext,
+  useState,
+  useEffect,
+  useInsertionEffect,
+  useRef,
+} from 'react';
 import {DietContext} from '../../contexts/diet.context';
-import {FoodContext} from '../../contexts/food.context';
+import {UserContext} from '../../contexts/user.context';
 import {Doughnut} from 'react-chartjs-2';
 import {Chart, Tooltip, Title, ArcElement, Legend} from 'chart.js';
+import {MealContext} from '../../contexts/meal.context';
 Chart.register (Tooltip, Title, ArcElement, Legend);
 
 const FoodDetails = ({food}) => {
+  const {meal} = useContext (MealContext);
   const {addFoodToDiet} = useContext (DietContext);
   const [servings, setServings] = useState ((1).toFixed (1));
   const [isOpen, setIsOpen] = useState (false);
   const [foodToAdd, setFoodToAdd] = useState (null);
-  const [id, setId] = useState (-1);
+  const {currentUser} = useContext (UserContext);
+  const [length, setLength] = useState (0);
+  const user = currentUser;
+  let count = 0;
   const data = {
     datasets: [
       {
@@ -52,18 +73,28 @@ const FoodDetails = ({food}) => {
     return food.foodNutrients[1].value * 900 / food.foodNutrients[3].value;
   };
 
-  // const {setFood} = useContext (FoodContext);
-
-  //   const closeWindow = () => {
-  //     setTimeout (() => setFood (null), 1000);
-  //   };
-
-  const handleSubmit = event => {
+  const handleSubmit = async event => {
     event.preventDefault ();
-    if (foodToAdd != {})
+
+    const db = getFirestore ();
+    const q = query (collection (db, `users/${user.uid}/diet`));
+    const querySnapshot = await getDocs (q);
+    const queryData = querySnapshot.docs.map (detail => ({
+      ...detail.data (),
+      id: detail.id,
+    }));
+
+    let mealNr = 0;
+    if (meal == null) {
+      console.log ('Nu exista meal nr.');
+      mealNr = queryData.map (el => el[length - 1].mealNr);
+      console.log (mealNr[0]);
+    }
+
+    if (foodToAdd != {}) {
       setFoodToAdd ({
-        id: id,
         fdcId: food.fdcId,
+        mealNr: meal ? meal : mealNr[0],
         name: food.description,
         quantity: Number (servings),
         kcal: food.foodNutrients[3].value,
@@ -71,16 +102,53 @@ const FoodDetails = ({food}) => {
         carbs: food.foodNutrients[2].value,
         fat: food.foodNutrients[1].value,
       });
+    }
+    setServings ((1).toFixed (1));
+    setLength (length + 1);
+    await updateDoc (doc (db, `users/${user.uid}/diet/diet`), {
+      [length]: {
+        fdcId: food.fdcId,
+        mealNr: meal ? meal : mealNr[0],
+        name: food.description,
+        quantity: Number (servings),
+        kcal: food.foodNutrients[3].value,
+        protein: food.foodNutrients[0].value,
+        carbs: food.foodNutrients[2].value,
+        fat: food.foodNutrients[1].value,
+      },
+    });
   };
 
   useEffect (
     () => {
       if (foodToAdd) {
-        setId (id + 1);
         addFoodToDiet (foodToAdd);
       }
     },
     [foodToAdd]
+  );
+
+  useEffect (
+    () => {
+      if (length == 0) {
+        const db = getFirestore ();
+        const q = query (collection (db, `users/${user.uid}/diet`));
+        getDocs (q).then (r => {
+          const querySnapshot = r;
+          const queryData = querySnapshot.docs.map (detail => ({
+            ...detail.data (),
+            id: detail.id,
+          }));
+
+          for (let i in queryData[0]) {
+            count = count + 1;
+          }
+
+          setLength (count);
+        });
+      }
+    },
+    [food]
   );
 
   const handleChange = event => {

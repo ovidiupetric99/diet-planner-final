@@ -8,16 +8,19 @@ import App from './App';
 import {UserProvider} from './contexts/user.context';
 import {FoodProvider} from './contexts/food.context';
 import {DietProvider} from './contexts/diet.context';
+import {MealProvider} from './contexts/meal.context';
 
 const root = ReactDOM.createRoot (document.getElementById ('root'));
 root.render (
   <BrowserRouter>
     <UserProvider>
-      <FoodProvider>
-        <DietProvider>
-          <App />
-        </DietProvider>
-      </FoodProvider>
+      <MealProvider>
+        <FoodProvider>
+          <DietProvider>
+            <App />
+          </DietProvider>
+        </FoodProvider>
+      </MealProvider>
     </UserProvider>
   </BrowserRouter>
 );

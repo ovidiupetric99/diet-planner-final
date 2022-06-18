@@ -57,6 +57,7 @@ const SignUpForm = () => {
         protein: '',
         carbs: '',
         fats: '',
+        mealsNumber: '',
       });
       resetFormFields ();
       inputDate.current.value = '';

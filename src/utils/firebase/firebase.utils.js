@@ -15,6 +15,10 @@ import {
   getDoc,
   setDoc,
   updateDoc,
+  query,
+  collection,
+  deleteDoc,
+  getDocs,
 } from 'firebase/firestore';
 
 const firebaseConfig = {
@@ -154,4 +158,87 @@ export const currentUserSnapshot = async userAuth => {
   const userSnapshot = await getDoc (userDocRef);
 
   return userSnapshot.data ();
+};
+
+export const userMealsNumber = async userAuth => {
+  if (!userAuth) return;
+  const userDocRef = doc (db, 'users', userAuth.uid);
+
+  const userSnapshot = await getDoc (userDocRef);
+
+  return userSnapshot.data ().mealsNumber;
+};
+
+export const userMacrosGoal = async userAuth => {
+  if (!userAuth) return;
+  let macros = {
+    kcal: 0,
+    protein: 0,
+    carbs: 0,
+    fats: 0,
+  };
+  const userDocRef = doc (db, 'users', userAuth.uid);
+
+  const userSnapshot = await getDoc (userDocRef);
+  macros = {
+    kcal: userSnapshot.data ().kcal,
+    protein: userSnapshot.data ().protein,
+    carbs: userSnapshot.data ().carbs,
+    fat: userSnapshot.data ().fats,
+  };
+
+  return macros;
+};
+
+export const userTotalMacrosFromDiet = async userAuth => {
+  if (!userAuth) return;
+  const userDocRef = doc (db, `users/${userAuth.uid}/diet/diet`);
+
+  const userSnapshot = await getDoc (userDocRef);
+  const items = userSnapshot.data ();
+  let total = {
+    kcal: 0,
+    protein: 0,
+    carbs: 0,
+    fat: 0,
+  };
+
+  for (let i in items) {
+    const item = items[i];
+    total = {
+      kcal: total.kcal + item.kcal * item.quantity,
+      protein: total.protein + item.protein * item.quantity,
+      carbs: total.carbs + item.carbs * item.quantity,
+      fat: total.fat + item.fat * item.quantity,
+    };
+  }
+
+  return total;
+};
+
+export const clearUserDiet = async userAuth => {
+  if (!userAuth) return;
+
+  const listRef = doc (db, `users/${userAuth.uid}/diet/diet`);
+
+  await deleteDoc (listRef);
+
+  await setDoc (doc (db, `users/${userAuth.uid}/diet/diet`), {});
+};
+
+export const userMetrics = async userAuth => {
+  if (!userAuth) return;
+  let metrics = {
+    wheight: 0,
+    height: 0,
+  };
+  const userDocRef = doc (db, 'users', userAuth.uid);
+
+  const userSnapshot = await getDoc (userDocRef);
+  metrics = {
+    wheight: userSnapshot.data ().wheight,
+    height: userSnapshot.data ().height,
+  };
+
+  return metrics;
 };

@@ -6,6 +6,7 @@ const addFoodItem = (foodItems, foodToAdd, id) => {
     ...foodItems,
     {
       id: id,
+      mealNr: foodToAdd.mealNr,
       fdcId: foodToAdd.fdcId,
       name: foodToAdd.name,
       quantity: foodToAdd.quantity,
@@ -32,22 +33,53 @@ export const DietContext = createContext ({
   addFoodToDiet: () => {},
   removerFoodFromDiet: () => {},
   clearFoodFromDiet: () => {},
-  dietCount: 0,
+  macrosCount: {
+    kcal: 0,
+    protein: 0,
+    carbs: 0,
+    fat: 0,
+  },
+  setMacrosCount: () => {},
 });
 
 export const DietProvider = ({children}) => {
   const [isDietOpen, setIsDietOpen] = useState (false);
   const [foodItems, setFoodItems] = useState ([]);
-  const [dietCount, setDietCount] = useState (0);
+  const [macrosCount, setMacrosCount] = useState ({
+    kcal: 0,
+    protein: 0,
+    carbs: 0,
+    fat: 0,
+  });
   const [id, setId] = useState (-1);
 
   useEffect (
     () => {
-      const newDietCount = foodItems.reduce (
+      const newKcalCount = foodItems.reduce (
         (total, foodItem) => total + foodItem.quantity * foodItem.kcal,
         0
       );
-      setDietCount (newDietCount);
+
+      const newProteinCount = foodItems.reduce (
+        (total, foodItem) => total + foodItem.quantity * foodItem.protein,
+        0
+      );
+
+      const newCarbsCount = foodItems.reduce (
+        (total, foodItem) => total + foodItem.quantity * foodItem.carbs,
+        0
+      );
+
+      const newFatCount = foodItems.reduce (
+        (total, foodItem) => total + foodItem.quantity * foodItem.fat,
+        0
+      );
+      setMacrosCount ({
+        kcal: newKcalCount,
+        protein: newProteinCount,
+        carbs: newCarbsCount,
+        fat: newFatCount,
+      });
       setId (id + 1);
     },
     [foodItems]
@@ -74,7 +106,7 @@ export const DietProvider = ({children}) => {
     removeFoodFromDiet,
     clearFoodFromDiet,
     foodItems,
-    dietCount,
+    macrosCount,
   };
 
   return <DietContext.Provider value={value}>{children}</DietContext.Provider>;

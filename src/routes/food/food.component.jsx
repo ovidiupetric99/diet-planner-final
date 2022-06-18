@@ -11,18 +11,20 @@ import {FoodContext} from '../../contexts/food.context';
 
 const defaultParams = {
   api_key: 'NCEtfwf5O4G1bGJoqMRWDJg44gc5oEmX28t4GBlE',
+  dataType: ['Branded'],
   querry: '',
 };
 
 const Food = () => {
   const {food, setFood} = useContext (FoodContext);
   const [value, setValue] = useState ('');
+  const [verify, setVerify] = useState (false);
 
   const [allFoods, setAllFoods] = useState (null);
 
   const [params, setParams] = useState (defaultParams);
 
-  const api_url = `https://api.nal.usda.gov/fdc/v1/foods/search?api_key=${params.api_key}&query=${params.querry}`;
+  const api_url = `https://api.nal.usda.gov/fdc/v1/foods/search?api_key=${params.api_key}&query=${params.querry}&dataType=${params.dataType}`;
 
   const handleSubmit = async event => {
     event.preventDefault ();
