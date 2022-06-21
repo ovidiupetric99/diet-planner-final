@@ -11,13 +11,11 @@ import './cart-icon.styles.scss';
 import {UserContext} from '../../contexts/user.context';
 
 const CartIcon = () => {
-  const {isDietOpen, setIsDietOpen, macrosCount} = useContext (DietContext);
   const {currentUser} = useContext (UserContext);
   const user = currentUser;
   const [dietKcal, setDietKcal] = useState (0);
   const navigate = useNavigate ();
-
-  //const toggleIsDietOpen = () => setIsDietOpen (!isDietOpen);
+  const {foodItems} = useContext (DietContext);
 
   const goToDietHandler = () => {
     navigate ('/diet');
@@ -29,11 +27,12 @@ const CartIcon = () => {
         setDietKcal (r.kcal);
       });
     },
-    [user]
+    [foodItems]
   );
+
   return (
-    <div className="cart-icon-container">
-      <PlateIcon className="plate-icon" onClick={goToDietHandler} />
+    <div className="cart-icon-container" onClick={goToDietHandler}>
+      <PlateIcon className="plate-icon" />
       {dietKcal == 0
         ? <span className="item-count">
             {dietKcal} kcal

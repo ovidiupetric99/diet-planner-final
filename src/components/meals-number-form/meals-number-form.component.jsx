@@ -25,6 +25,7 @@ import {
 } from '../../utils/firebase/firebase.utils';
 
 import './meals-number-form.styles.scss';
+import {DietContext} from '../../contexts/diet.context';
 
 const MealsNumberForm = () => {
   const {currentUser} = useContext (UserContext);
@@ -32,6 +33,7 @@ const MealsNumberForm = () => {
   const [mealsNumber, setMealsNumber] = useState (0);
   const [mealsNumberSelected, setMealsNumberSelected] = useState (null);
   const navigate = useNavigate ();
+  const {removeFoodFromDiet} = useContext (DietContext);
 
   const navigateToUserData = () => {
     navigate ('/user-data');
@@ -48,27 +50,13 @@ const MealsNumberForm = () => {
       id: detail.id,
     }));
 
-    const currentUserData = queryData.filter (el => el.id === user.uid);
-    //  console.log (currentUserData);
-
-    let nr = mealsNumber;
-
     const q2 = query (collection (db, `users/${user.uid}/diet`));
     const q2Snapshot = await getDocs (q2);
     q2Snapshot.docs.map (async el => {
       await deleteDoc (doc (db, `users/${user.uid}/diet/diet`));
     });
 
-    // await deleteDoc (doc (db, `users/${user.uid}/diet`, 'Meal 1'));
-
-    //currentUserData.map (el => console.log (el));
-
-    // for (let i = nr; i > 0; i--)
     await setDoc (doc (db, `users/${user.uid}/diet/diet`), {});
-
-    // queryData.map (async v => {
-    //   await setDoc (doc (db, `users/${v.id}/diet`, details.name), {});
-    // });
 
     if (mealsNumber == 0) {
       alert ('Please select an option!');
@@ -83,6 +71,7 @@ const MealsNumberForm = () => {
     } catch (error) {
       console.log ('setings meals number encountered an error', error);
     }
+    await removeFoodFromDiet ();
   };
 
   const radioChange = event => {
@@ -95,6 +84,7 @@ const MealsNumberForm = () => {
       currentUserSnapshot (user).then (r => {
         if (r) {
           setMealsNumberSelected (r.mealsNumber);
+          setMealsNumber (r.mealsNumber);
         }
       });
     },

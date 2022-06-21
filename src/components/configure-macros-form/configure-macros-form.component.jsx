@@ -118,17 +118,17 @@ const ConfigureMacrosForm = () => {
     const {gender, wheight, activity} = userData;
     if (goalSelected == 1)
       return gender == 2
-        ? 1 * wheight * (activity / 2) * 1
-        : 1 * wheight * (activity / 2) * 0.8;
+        ? 1 * wheight * (activity / 2) * 1.1
+        : 1 * wheight * (activity / 2) * 1;
 
     if (goalSelected == 2)
       return gender == 2
-        ? 1.3 * wheight * (activity / 2)
-        : 1.3 * wheight * (activity / 2) * 0.8;
+        ? 1.3 * wheight * (activity / 2) * 1.1
+        : 1.3 * wheight * (activity / 2) * 1;
     if (goalSelected == 3)
       return gender == 2
-        ? 1.7 * wheight * (activity / 2)
-        : 1.7 * wheight * (activity / 2) * 0.8;
+        ? 1.7 * wheight * (activity / 2) * 1.1
+        : 1.7 * wheight * (activity / 2) * 1;
   };
 
   const calculateCarbs = () => {

@@ -1,25 +1,23 @@
 .button-container {
-    min-width: 165px;
-    width: auto;
-    height: 50px;
-    letter-spacing: 0.5px;
-    line-height: 50px;
-    padding: 0 35px 0 35px;
-    font-size: 15px;
-    background-color: black;
-    color: white;
+    background-image: linear-gradient(to right, #5C258D 0%, #4389A2 51%, #5C258D 100%);
+    margin: 10px;
+    padding: 15px 45px;
+    text-align: center;
     text-transform: uppercase;
-    font-family: 'Montserrat';
-    font-weight: bolder;
+    transition: 0.5s;
+    background-size: 200% auto;
+    color: white;
+    box-shadow: 0 0 20px #eee;
+    border-radius: 10px;
+    display: block;
     border: none;
-    cursor: pointer;
-    display: flex;
-    justify-content: center;
 
     &:hover {
-        background-color: white;
-        color: black;
-        border: 1px solid black;
+        background-position: right center;
+        /* change the direction of the change here */
+        color: #fff;
+        text-decoration: none;
+        cursor: pointer;
     }
 
     &.google-sign-in {
@@ -43,4 +41,26 @@
             border: none;
         }
     }
+}
+
+
+.btn-grad {
+    background-image: linear-gradient(to right, #5C258D 0%, #4389A2 51%, #5C258D 100%);
+    margin: 10px;
+    padding: 15px 45px;
+    text-align: center;
+    text-transform: uppercase;
+    transition: 0.5s;
+    background-size: 200% auto;
+    color: white;
+    box-shadow: 0 0 20px #eee;
+    border-radius: 10px;
+    display: block;
+}
+
+.btn-grad:hover {
+    background-position: right center;
+    /* change the direction of the change here */
+    color: #fff;
+    text-decoration: none;
 }

@@ -3,7 +3,7 @@ import React, {Fragment} from 'react';
 import './modal.styles.scss';
 
 const MODAL_STYLES = {
-  position: 'fixed',
+  position: 'absolute',
   top: '50%',
   left: '50%',
   transform: 'translate(-50%, -50%)',
@@ -13,7 +13,9 @@ const MODAL_STYLES = {
   WebkitBoxShadow: '0 5px 11px 0 rgb(0 0 0 / 18%), 0 4px 15px 0 rgb(0 0 0 / 15%)',
   boxShadow: '0 5px 11px 0 rgb(0 0 0 / 18%), 0 4px 15px 0 rgb(0 0 0 / 15%)',
   width: '400px',
-  height: 'fit-content',
+  maxHeight: '80%',
+  overflowY: 'auto',
+  WebkitScrollbar: 'display: none',
 };
 
 const OVERLAY_STYLES = {

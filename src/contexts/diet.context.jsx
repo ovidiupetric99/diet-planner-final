@@ -1,4 +1,3 @@
-import {createUserWithEmailAndPassword} from 'firebase/auth';
 import {createContext, useState, useEffect} from 'react';
 
 const addFoodItem = (foodItems, foodToAdd, id) => {
@@ -18,8 +17,8 @@ const addFoodItem = (foodItems, foodToAdd, id) => {
   ];
 };
 
-const removeFoodItem = (foodItems, idToRemove) => {
-  return [];
+const removeFoodItem = foodItems => {
+  return foodItems.filter (foodItem => foodItem.id == null);
 };
 
 const clearFoodItem = (foodItems, idToRemove) => {
@@ -89,8 +88,8 @@ export const DietProvider = ({children}) => {
     setFoodItems (addFoodItem (foodItems, foodToAdd, id));
   };
 
-  const removeFoodFromDiet = idToRemove => {
-    setFoodItems (removeFoodItem (foodItems, idToRemove));
+  const removeFoodFromDiet = () => {
+    setFoodItems (removeFoodItem (foodItems));
   };
 
   const clearFoodFromDiet = idToRemove => {

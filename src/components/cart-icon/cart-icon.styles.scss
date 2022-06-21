@@ -1,21 +1,24 @@
 .cart-icon-container {
-    width: 45px;
-    height: 45px;
+    width: 70px;
+    height: 50px;
     position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
+    overflow: hidden;
+
 
     .plate-icon {
-        transform: scale(4);
+        transform: scale(2.7);
+
     }
 
     .item-count {
         position: absolute;
         font-size: 10px;
         font-weight: bold;
-        bottom: 15px;
+        bottom: 17px;
         color: white;
     }
 

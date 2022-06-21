@@ -37,7 +37,7 @@ const Navigation = () => {
         }
       });
     },
-    [currentUser]
+    [user]
   );
 
   return (
@@ -48,13 +48,20 @@ const Navigation = () => {
         </Link>
         <div className="nav-links-container">
           {currentUser
-            ? <Link className="nav-link" to="/configure-macros">
-                SET GOAL
+            ? <Link className="nav-link" to="/user-data">
+                {userName}
               </Link>
             : null}
+
           {currentUser
-            ? <Link className="nav-link" to="/auth">
-                SETTINGS
+            ? <Link className="nav-link" to="/edit-user">
+                CONFIGURE USER
+              </Link>
+            : null}
+
+          {currentUser
+            ? <Link className="nav-link" to="/configure-macros">
+                CHANGE GOAL
               </Link>
             : null}
 
@@ -65,28 +72,17 @@ const Navigation = () => {
             : null}
 
           {currentUser
+            ? <Link className="nav-link" to="/bmi">
+                BMI
+              </Link>
+            : null}
+          {currentUser
             ? <span className="nav-link" onClick={handlerSignOut}>
                 SIGN OUT
               </span>
             : <Link className="nav-link" to="/auth">
                 SIGN IN
               </Link>}
-
-          {currentUser
-            ? <Link className="nav-link" to="/edit-user">
-                CONFIGURE USER
-              </Link>
-            : null}
-          {currentUser
-            ? <Link className="nav-link" to="/user-data">
-                {userName}
-              </Link>
-            : null}
-          {currentUser
-            ? <Link className="nav-link" to="/bmi">
-                See your BMI
-              </Link>
-            : null}
 
           {currentUser &&
             <div className="nav-link-icon">

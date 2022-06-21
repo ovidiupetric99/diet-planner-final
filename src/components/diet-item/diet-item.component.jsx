@@ -35,14 +35,12 @@ const DietItem = ({foodItem, handler}) => {
   const [itemToDelete, setItemToDelete] = useState (null);
   //let itemToDelete = null;
   const user = currentUser;
-  const {clearFoodFromDiet, addFoodToDiet, removeFoodFromDiet} = useContext (
-    DietContext
-  );
+  const {clearFoodFromDiet} = useContext (DietContext);
 
   const clearFoodHandler = async () => {
     const db = getFirestore ();
     const q = query (collection (db, `users/${user.uid}/diet`));
-    //const listRef = doc (db, `users/${user.uid}/diet/diet`);
+
     getDocs (q).then (r => {
       const querySnapshot = r;
       const queryData = querySnapshot.docs.map (detail => ({
@@ -64,6 +62,7 @@ const DietItem = ({foodItem, handler}) => {
       if (itemToDelete != null) {
         deleteItemFromDatabase (itemToDelete, user).then (r => {
           handler ();
+          clearFoodFromDiet (itemToDelete);
         });
       }
     },

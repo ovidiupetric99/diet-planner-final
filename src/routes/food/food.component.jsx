@@ -19,12 +19,14 @@ const Food = () => {
   const {food, setFood} = useContext (FoodContext);
   const [value, setValue] = useState ('');
   const [verify, setVerify] = useState (false);
+  let selectedFoods = [];
+  let verifiedArray = [];
 
   const [allFoods, setAllFoods] = useState (null);
 
   const [params, setParams] = useState (defaultParams);
 
-  const api_url = `https://api.nal.usda.gov/fdc/v1/foods/search?api_key=${params.api_key}&query=${params.querry}&dataType=${params.dataType}`;
+  const api_url = `https://api.nal.usda.gov/fdc/v1/foods/search?api_key=${params.api_key}&query=${params.querry}`;
 
   const handleSubmit = async event => {
     event.preventDefault ();
@@ -37,7 +39,23 @@ const Food = () => {
 
   const getDataHandler = () => {
     getData ().then (data => {
-      setAllFoods (data.foods);
+      if (data.foods) {
+        verifiedArray = data.foods.filter (
+          el =>
+            el.foodNutrients[0] &&
+            el.foodNutrients[1] &&
+            el.foodNutrients[2] &&
+            el.foodNutrients[3]
+        );
+      }
+      selectedFoods = verifiedArray.filter (
+        el =>
+          el.foodNutrients[0].nutrientName == 'Protein' &&
+          el.foodNutrients[1].nutrientName == 'Total lipid (fat)' &&
+          el.foodNutrients[2].nutrientName == 'Carbohydrate, by difference' &&
+          el.foodNutrients[3].nutrientName == 'Energy'
+      );
+      setAllFoods (selectedFoods);
     });
   };
 
@@ -45,10 +63,6 @@ const Food = () => {
     setParams ({...params, querry: event.target.value});
     setValue (event.target.value);
   };
-
-  useEffect (() => {
-    setFood (null);
-  }, []);
 
   return (
     <div className="products-container">

@@ -168,7 +168,7 @@ const EditUserForm = () => {
         </div>
 
         <FormInput
-          label="Wheight (in Kg)"
+          label="Weight (in Kg)"
           type="number"
           onChange={handleChange}
           name="wheight"

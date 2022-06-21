@@ -45,8 +45,9 @@ export const createUserProfileDocument = async (userAuth, additionalData) => {
 };
 
 export const auth = getAuth ();
-export const signInWithGooglePopup = () =>
+export const signInWithGooglePopup = () => {
   signInWithPopup (auth, googleProvider);
+};
 export const signInWithGoogleRedirect = () =>
   signInWithRedirect (auth, googleProvider);
 

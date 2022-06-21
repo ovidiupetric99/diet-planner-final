@@ -14,7 +14,7 @@
     }
 
     .nav-links-container {
-        width: 50%;
+        width: 70%;
         height: 100%;
         display: flex;
         align-items: center;
@@ -23,6 +23,14 @@
         .nav-link {
             padding: 10px 15px;
             cursor: pointer;
+            font-size: medium;
+            text-align: center;
+            width: fit-content;
+
+
+            &:not(:nth-last-child(2)) {
+                border-right: 1px solid lightgray;
+            }
         }
 
         .nav-link-icon {

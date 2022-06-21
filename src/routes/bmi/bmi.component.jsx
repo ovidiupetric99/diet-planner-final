@@ -27,16 +27,19 @@ const Bmi = () => {
     [user]
   );
 
-  console.log ('inaltime', height);
-  console.log ('greutate', wheight);
-
   return (
     <div className="bmi">
-      <h2>Your body mass index is: {userBmi}</h2>
+      <div style={{display: 'flex'}}>
+        <h2>Your body mass index is: </h2>
+        <h2 style={{paddingLeft: '10px', color: '#198FFD'}}>
+          {userBmi}
+        </h2>
+      </div>
+
       {userBmi > 15 && userBmi < 18.5
-        ? <h3>Your result suggest that you are underwheight.</h3>
+        ? <h3>Your result suggest that you are underweight.</h3>
         : userBmi >= 18.5 && userBmi <= 25
-            ? <h3>Your result suggest that your wheight is optimal.</h3>
+            ? <h3>Your result suggest that your weight is optimal.</h3>
             : userBmi > 25 && userBmi < 30
                 ? <h3>Your result suggest that you are overweight.</h3>
                 : userBmi > 30
@@ -108,7 +111,7 @@ const Bmi = () => {
           </span>
         </div>
       </div>
-      <h3>{`Healthy range wheight for your height (${height} cm):`}</h3>
+      <h3>{`Healthy range weight for your height (${height} cm):`}</h3>
       <h3>
         {(18.5 * (height / 100 * height / 100)).toFixed (0)}
         {' '}
@@ -117,6 +120,17 @@ const Bmi = () => {
         {(25 * (height / 100 * height / 100)).toFixed (0)} kg
       </h3>
       <h3 />
+
+      <div style={{width: '40%', textAlign: 'center'}}>
+        <h5>
+          Procedure: BMI is calculated from body mass (M) and height (H). BMI = M / (H x H), where M = body mass in kilograms and H = height in meters. The higher the score usually indicating higher levels of body fat.
+        </h5>
+        <h5>
+          *Disclaimer: in certain populations BMI can be inaccurate as a measure of body fatness, for example large and muscular though lean athletes may score high BMI levels which incorrectly rates them as overwheight or obese.
+        </h5>
+
+      </div>
+
     </div>
   );
 };
