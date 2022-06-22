@@ -1,8 +1,14 @@
 import {Outlet} from 'react-router-dom';
+import {useContext, useEffect, useState} from 'react';
+import {UserContext} from '../../contexts/user.context';
 
 import Directory from '../../components/directory/directory.component';
+import {currentUserSnapshot} from '../../utils/firebase/firebase.utils';
 
 const Home = () => {
+  const {currentUser} = useContext (UserContext);
+  const user = currentUser;
+  const [userLogged, setUserLogged] = useState (null);
   const categories = [
     {
       title: 'CURRENT MACROS',
@@ -40,6 +46,18 @@ const Home = () => {
 
   //https://www.eatthis.com/wp-content/uploads/sites/4/2020/06/healthy-weight-loss-foods.jpg?quality=82&strip=1
   //https://www.merakilane.com/wp-content/uploads/2018/06/Plant-Based-Diet-Meal-Plan-for-Beginners_-21-Day-Kickstart-Guide-slider.jpg
+
+  useEffect (
+    () => {
+      currentUserSnapshot (user).then (r => {
+        if (r) {
+          setUserLogged (r);
+        }
+      });
+    },
+    [user]
+  );
+
   return (
     <div>
       <Outlet />

@@ -17,14 +17,18 @@ import {
 import './navigation.styles.scss';
 
 const Navigation = () => {
-  const {currentUser} = useContext (UserContext);
+  const {currentUser, setCurrentUser} = useContext (UserContext);
   const {isDietOpen} = useContext (DietContext);
-  const [userName, setUserName] = useState (null);
+  const [userName, setUserName] = useState ('');
   const navigate = useNavigate ();
+  const [premium, setPremium] = useState (false);
 
   const user = currentUser;
 
   const handlerSignOut = () => {
+    setCurrentUser (null);
+    setUserName ('');
+    setPremium (false);
     signOutUser ();
     navigate ('/auth');
   };
@@ -40,6 +44,28 @@ const Navigation = () => {
     [user]
   );
 
+  useEffect (
+    () => {
+      if (userName) {
+        currentUserSnapshot (user).then (r => {
+          if (r) {
+            setPremium (r.premium);
+          }
+        });
+      }
+    },
+    [userName]
+  );
+
+  useEffect (() => {
+    currentUserSnapshot (user).then (r => {
+      if (r) {
+        setUserName (r.displayName.toUpperCase ());
+        setPremium (r.premium);
+      }
+    });
+  });
+
   return (
     <Fragment>
       <div className="navigation">
@@ -47,9 +73,14 @@ const Navigation = () => {
           <img src={DietPlannerLogo} alt="logo" />
         </Link>
         <div className="nav-links-container">
-          {currentUser
+          {userName
             ? <Link className="nav-link" to="/user-data">
                 {userName}
+              </Link>
+            : null}
+          {premium
+            ? <Link className="nav-link" to="/set-macros">
+                SET MACROS *PREMIUM*
               </Link>
             : null}
 
@@ -90,7 +121,6 @@ const Navigation = () => {
             </div>}
 
         </div>
-        {isDietOpen && <CartDropdown />}
       </div>
       <Outlet />
     </Fragment>

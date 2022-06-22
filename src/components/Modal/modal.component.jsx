@@ -15,7 +15,6 @@ const MODAL_STYLES = {
   width: '400px',
   maxHeight: '80%',
   overflowY: 'auto',
-  WebkitScrollbar: 'display: none',
 };
 
 const OVERLAY_STYLES = {

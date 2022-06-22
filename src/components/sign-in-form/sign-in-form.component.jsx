@@ -29,10 +29,6 @@ const SignInForm = () => {
     setFormFields (defaultFormFields);
   };
 
-  const signInWithGoogle = async () => {
-    await signInWithGooglePopup ();
-  };
-
   const handleSubmit = async event => {
     event.preventDefault ();
 

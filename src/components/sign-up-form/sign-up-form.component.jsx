@@ -1,4 +1,4 @@
-import {useState, useRef} from 'react';
+import {useState, useRef, useContext, useEffect} from 'react';
 
 import FormInput from '../form-input/form-input.component';
 import Button from '../button/button.component';
@@ -9,10 +9,11 @@ import 'react-datepicker/dist/react-datepicker.css';
 import {
   createAuthUserWithEmailAndPassword,
   createUserDocumentFromAuth,
-  currentUserData,
+  currentUserSnapshot,
 } from '../../utils/firebase/firebase.utils';
 
 import './sign-up-form.styles.scss';
+import {UserContext} from '../../contexts/user.context';
 
 const defaultFormFields = {
   displayName: '',
@@ -24,12 +25,15 @@ const defaultFormFields = {
 const SignUpForm = () => {
   const [formFields, setFormFields] = useState (defaultFormFields);
   const {displayName, email, password, confirmPassword} = formFields;
+  const {currentUser, setCurrentUser} = useContext (UserContext);
+  const [userConfigured, setUserConfigured] = useState (null);
+
   const inputDate = useRef ();
 
   const navigate = useNavigate ();
 
   const navigateToEditUser = () => {
-    navigate ('/edit-user');
+    navigate ('/');
   };
 
   const resetFormFields = () => {
@@ -69,6 +73,7 @@ const SignUpForm = () => {
         console.log ('user creation encountered an error', error);
       }
     }
+    setUserConfigured (true);
   };
 
   const handleChange = event => {

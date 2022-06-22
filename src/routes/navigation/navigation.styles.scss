@@ -28,8 +28,8 @@
             width: fit-content;
 
 
-            &:not(:nth-last-child(2)) {
-                border-right: 1px solid lightgray;
+            &:not(:first-child) {
+                border-left: 1px solid lightgray;
             }
         }
 

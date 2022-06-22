@@ -5,6 +5,7 @@ import ChartDataLabels from 'chartjs-plugin-datalabels';
 import {Pie} from 'react-chartjs-2';
 
 import {useContext, useEffect, useState} from 'react';
+import {Link} from 'react-router-dom';
 
 import './macros.styles.scss';
 import {UserContext} from '../../contexts/user.context';
@@ -19,7 +20,11 @@ const Macros = () => {
   const data = {
     datasets: [
       {
-        data: [userData.protein, userData.carbs, userData.fats],
+        data: [
+          Number (userData.protein),
+          Number (userData.carbs),
+          Number (userData.fats),
+        ],
         backgroundColor: [
           'rgb(255, 99, 132)',
           'rgb(54, 162, 235)',
@@ -48,6 +53,7 @@ const Macros = () => {
           };
           const totalValue = datapoints.reduce (totalSum, 0);
           const percentageValue = (value / totalValue * 100).toFixed (0);
+          console.log (totalValue);
 
           return `${percentageValue}%`;
         },
@@ -89,6 +95,9 @@ const Macros = () => {
             </div>
           </div>
         : null}
+      <div className="link-buy">
+        <Link className="buy" to="/buy-premium">Go buy premium account!</Link>
+      </div>
 
     </div>
   );

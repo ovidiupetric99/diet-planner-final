@@ -61,16 +61,6 @@ const ConfigureMacrosForm = () => {
         carbs,
         fats,
       });
-      console.log (
-        'kcal: ' +
-          kcal +
-          '\nprotein: ' +
-          protein +
-          '\ncarbs: ' +
-          carbs +
-          '\nfats: ' +
-          fats
-      );
       navigateToMealsNumber ();
     } catch (error) {
       console.log ('macros configuring ecnountered an error', error);

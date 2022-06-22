@@ -5,7 +5,10 @@ import {useNavigate} from 'react-router-dom';
 import {DietContext} from '../../contexts/diet.context';
 
 import {ReactComponent as PlateIcon} from '../../assets/farfurieneagra.svg';
-import {userTotalMacrosFromDiet} from '../../utils/firebase/firebase.utils';
+import {
+  currentUserSnapshot,
+  userTotalMacrosFromDiet,
+} from '../../utils/firebase/firebase.utils';
 
 import './cart-icon.styles.scss';
 import {UserContext} from '../../contexts/user.context';

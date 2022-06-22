@@ -33,7 +33,8 @@ const EditUserForm = () => {
   const {gender, wheight, height, activity} = formFields;
   const [genderSelected, setGenderSelected] = useState (null);
   const [activitySelected, setActivitySelected] = useState (null);
-  const {currentUser} = useContext (UserContext);
+  const {currentUser, setCurrentUser} = useContext (UserContext);
+  const [userName, setUserName] = useState ('');
 
   const user = currentUser;
 
@@ -88,9 +89,8 @@ const EditUserForm = () => {
           setFormFields (r);
           currentUserSnapshot (user).then (r => setGenderSelected (r.gender));
           currentUserSnapshot (user).then (r => {
-            setActivitySelected (r.activity);
             age = getAge (r.birthday);
-            // console.log (age);
+            setActivitySelected (r.activity);
           });
         }
       });
