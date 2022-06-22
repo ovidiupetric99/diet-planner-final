@@ -21,8 +21,10 @@ import {
   getDocs,
 } from 'firebase/firestore';
 
+const {REACT_APP_FIREBASE_SECRET_KEY} = process.env;
+
 const firebaseConfig = {
-  apiKey: 'AIzaSyD8awU9YPDM_BPjowDYM4VOjRZ4SlzqAr0',
+  apiKey: REACT_APP_FIREBASE_SECRET_KEY,
   authDomain: 'diet-planner-db.firebaseapp.com',
   projectId: 'diet-planner-db',
   storageBucket: 'diet-planner-db.appspot.com',
