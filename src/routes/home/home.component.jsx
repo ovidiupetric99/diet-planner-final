@@ -44,6 +44,15 @@ const Home = () => {
     },
   ];
 
+  const signIn = [
+    {
+      title: 'GO SIGN OR SIGN UP',
+      imageUrl: 'https://www.merakilane.com/wp-content/uploads/2018/06/Plant-Based-Diet-Meal-Plan-for-Beginners_-21-Day-Kickstart-Guide-slider.jpg',
+      id: 1,
+      linkUrl: '/auth',
+    },
+  ];
+
   //https://www.eatthis.com/wp-content/uploads/sites/4/2020/06/healthy-weight-loss-foods.jpg?quality=82&strip=1
   //https://www.merakilane.com/wp-content/uploads/2018/06/Plant-Based-Diet-Meal-Plan-for-Beginners_-21-Day-Kickstart-Guide-slider.jpg
 
@@ -59,9 +68,14 @@ const Home = () => {
   );
 
   return (
-    <div>
+    <div style={{}}>
       <Outlet />
-      <Directory categories={categories} />
+      {currentUser
+        ? <Directory categories={categories} />
+        : <div style={{width: '40%', margin: 'auto'}}>
+            <Directory categories={signIn} />
+          </div>}
+
     </div>
   );
 };
