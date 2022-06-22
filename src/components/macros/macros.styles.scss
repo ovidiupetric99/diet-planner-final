@@ -20,6 +20,11 @@
     text-align: center;
     margin: auto;
 
+    &:hover {
+        transform: scale(1.1);
+        transition: all .2s ease-in-out;
+    }
+
     .buy {
         color: blue;
         border-bottom: 1px solid blue;

@@ -53,7 +53,6 @@ const Macros = () => {
           };
           const totalValue = datapoints.reduce (totalSum, 0);
           const percentageValue = (value / totalValue * 100).toFixed (0);
-          console.log (totalValue);
 
           return `${percentageValue}%`;
         },

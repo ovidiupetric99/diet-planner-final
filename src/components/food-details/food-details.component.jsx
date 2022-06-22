@@ -1,6 +1,6 @@
 import './food-details.styles.scss';
 import Button from '../button/button.component';
-import Modal from '../Modal/modal.component';
+import Modal from '../modal/modal.component';
 import {
   collection,
   query,

@@ -2,13 +2,11 @@ import {Fragment, useContext, useState, useEffect} from 'react';
 import {Outlet, Link, useNavigate} from 'react-router-dom';
 
 import CartIcon from '../../components/cart-icon/cart-icon.component';
-import CartDropdown
-  from '../../components/cart-dropdown/cart-dropdown.component';
+import Crown from '../../assets/rank.png';
 
 import {UserContext} from '../../contexts/user.context';
-import {DietContext} from '../../contexts/diet.context';
 
-import DietPlannerLogo from '../../assets/oviboss.png';
+import DietPlannerLogo from '../../assets/diet-planner-logo.png';
 import {
   currentUserSnapshot,
   signOutUser,
@@ -18,7 +16,6 @@ import './navigation.styles.scss';
 
 const Navigation = () => {
   const {currentUser, setCurrentUser} = useContext (UserContext);
-  const {isDietOpen} = useContext (DietContext);
   const [userName, setUserName] = useState ('');
   const navigate = useNavigate ();
   const [premium, setPremium] = useState (false);
@@ -80,7 +77,9 @@ const Navigation = () => {
             : null}
           {premium
             ? <Link className="nav-link" to="/set-macros">
-                SET MACROS *PREMIUM*
+                SET MACROS
+                {' '}
+                <img src={Crown} alt="crwn" />
               </Link>
             : null}
 

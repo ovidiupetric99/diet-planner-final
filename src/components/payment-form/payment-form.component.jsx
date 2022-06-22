@@ -34,7 +34,7 @@ const PaymentForm = () => {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify ({amount: 10000}),
+      body: JSON.stringify ({amount: 2000}),
     }).then (res => res.json ());
 
     const clientSecret = response.paymentIntent.client_secret;
