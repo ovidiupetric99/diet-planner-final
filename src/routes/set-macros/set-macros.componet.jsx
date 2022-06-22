@@ -22,7 +22,7 @@ const SetMacros = () => {
     Kcal: '',
     protein: '',
     carbs: '',
-    fat: '',
+    fats: '',
   });
   const {Kcal, protein, carbs, fats} = macros;
   const navigate = useNavigate ();
@@ -47,7 +47,7 @@ const SetMacros = () => {
     labels: [
       'Protein ' + `(${Number (protein)}g)`,
       'Carbs ' + `(${Number (carbs)}g)`,
-      'Fats ' + `(${Number (fats)}g)`,
+      'Fat ' + `(${Number (fats)}g)`,
     ],
     hoverOffset: 4,
   };
@@ -60,6 +60,7 @@ const SetMacros = () => {
       datalabels: {
         formatter: (value, context) => {
           const datapoints = context.chart.data.datasets[0].data;
+          console.log (datapoints);
           const totalSum = (total, datapoint) => {
             return total + datapoint;
           };

@@ -4,6 +4,7 @@ import {UserContext} from '../../contexts/user.context';
 
 import Directory from '../../components/directory/directory.component';
 import {currentUserSnapshot} from '../../utils/firebase/firebase.utils';
+import Footer from '../../components/footer/footer.component';
 
 const Home = () => {
   const {currentUser} = useContext (UserContext);
@@ -53,9 +54,6 @@ const Home = () => {
     },
   ];
 
-  //https://www.eatthis.com/wp-content/uploads/sites/4/2020/06/healthy-weight-loss-foods.jpg?quality=82&strip=1
-  //https://www.merakilane.com/wp-content/uploads/2018/06/Plant-Based-Diet-Meal-Plan-for-Beginners_-21-Day-Kickstart-Guide-slider.jpg
-
   useEffect (
     () => {
       currentUserSnapshot (user).then (r => {
@@ -68,14 +66,13 @@ const Home = () => {
   );
 
   return (
-    <div style={{}}>
+    <div>
       <Outlet />
       {currentUser
         ? <Directory categories={categories} />
         : <div style={{width: '40%', margin: 'auto'}}>
             <Directory categories={signIn} />
           </div>}
-
     </div>
   );
 };

@@ -1,0 +1,52 @@
+.footer-container {
+    width: 95%;
+    height: 100px;
+    position: relative;
+    bottom: 0;
+    border-top: 1px solid lightgray;
+    padding-top: 25px;
+    margin-top: 70px;
+    display: flex;
+    align-items: center;
+    justify-items: center;
+
+    .contact-container {
+        height: 100%;
+        width: 20%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        margin: auto;
+
+        .gmail {
+            display: flex;
+            height: 30px;
+
+        }
+
+        .facebook {
+            display: flex;
+            height: 30px;
+        }
+    }
+
+    .follow-container {
+        height: 100%;
+        width: 22%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        margin: auto;
+
+
+        .github {
+            display: flex;
+            height: 30px;
+        }
+
+        .linkedin {
+            display: flex;
+            height: 30px;
+        }
+    }
+}

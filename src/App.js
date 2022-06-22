@@ -13,22 +13,25 @@ import UserData from './components/macros/macros.component';
 import MealsNumber from './routes/meals-number/meals-number.component';
 import BuyPremium from './routes/buy-premium/buy-premium.component';
 import SetMacros from './routes/set-macros/set-macros.componet';
+import Footer from './components/footer/footer.component';
 
 const App = () => {
   return (
     <Routes>
       <Route path="/" element={<Navigation />}>
-        <Route index element={<Home />} />
-        <Route path="food" element={<Food />} />
-        <Route path="auth" element={<Authentication />} />
-        <Route path="edit-user" element={<EditUser />} />
-        <Route path="diet" element={<Diet />} />
-        <Route path="configure-macros" element={<ConfigureMacros />} />
-        <Route path="user-data" element={<UserData />} />
-        <Route path="meals-number" element={<MealsNumber />} />
-        <Route path="bmi" element={<Bmi />} />
-        <Route path="buy-premium" element={<BuyPremium />} />
-        <Route path="set-macros" element={<SetMacros />} />
+        <Route path="/" element={<Footer />}>
+          <Route index element={<Home />} />
+          <Route path="food" element={<Food />} />
+          <Route path="auth" element={<Authentication />} />
+          <Route path="edit-user" element={<EditUser />} />
+          <Route path="diet" element={<Diet />} />
+          <Route path="configure-macros" element={<ConfigureMacros />} />
+          <Route path="user-data" element={<UserData />} />
+          <Route path="meals-number" element={<MealsNumber />} />
+          <Route path="bmi" element={<Bmi />} />
+          <Route path="buy-premium" element={<BuyPremium />} />
+          <Route path="set-macros" element={<SetMacros />} />
+        </Route>
       </Route>
     </Routes>
   );
