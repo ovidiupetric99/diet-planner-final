@@ -33,7 +33,7 @@ const SetMacros = () => {
       kcal: '',
       protein: '',
       carbs: '',
-      fat: '',
+      fats: '',
     });
   };
 
@@ -88,7 +88,7 @@ const SetMacros = () => {
     event.preventDefault ();
     resetFormFields ();
 
-    kcal = 4 * macros.protein + 4 * macros.carbs + 9 * macros.fat;
+    kcal = 4 * macros.protein + 4 * macros.carbs + 9 * macros.fats;
 
     try {
       await editUserDocumentFromAuth (user, {
@@ -161,9 +161,9 @@ const SetMacros = () => {
             disabled
             name="Kcal"
             value={
-              macros.fat * 9 + macros.protein * 4 + macros.carbs * 4 === 0
+              macros.fats * 9 + macros.protein * 4 + macros.carbs * 4 === 0
                 ? ''
-                : macros.fat * 9 + macros.protein * 4 + macros.carbs * 4
+                : macros.fats * 9 + macros.protein * 4 + macros.carbs * 4
             }
             readOnly
           />
