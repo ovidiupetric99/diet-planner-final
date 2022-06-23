@@ -66,7 +66,7 @@ const Home = () => {
   );
 
   return (
-    <div>
+    <div style={{height: '520px'}}>
       <Outlet />
       {currentUser
         ? <Directory categories={categories} />
