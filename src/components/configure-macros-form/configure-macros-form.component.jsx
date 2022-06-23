@@ -158,21 +158,21 @@ const ConfigureMacrosForm = () => {
                 <form onSubmit={handleSubmit}>
                   <div>
                     <FormInput
-                      label="Lose Wheight"
+                      label="Lose Weight"
                       type="radio"
                       onChange={radioChange}
                       name="goal"
                       value="1"
                     />
                     <FormInput
-                      label="Maintain Wheight"
+                      label="Maintain Weight"
                       type="radio"
                       onChange={radioChange}
                       name="goal"
                       value="2"
                     />
                     <FormInput
-                      label="Gain Wheight"
+                      label="Gain Weight"
                       type="radio"
                       onChange={radioChange}
                       name="goal"
@@ -184,7 +184,7 @@ const ConfigureMacrosForm = () => {
                     {goalSelected == 1
                       ? <div>
                           <h3>
-                            How much wheight do you want to lose per week?{' '}
+                            How much weight do you want to lose per week?{' '}
                           </h3>
                           <FormInput
                             label="0.3 kg/week"
@@ -220,7 +220,7 @@ const ConfigureMacrosForm = () => {
                   {goalSelected == 3
                     ? <div>
                         <h3>
-                          How much wheight do you want to gain per week?{' '}
+                          How much weight do you want to gain per week?{' '}
                         </h3>
                         <FormInput
                           label="0.3 kg/week"
