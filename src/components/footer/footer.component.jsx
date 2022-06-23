@@ -16,7 +16,7 @@ const Footer = () => {
               color: 'gray',
               textDecoration: 'underline',
               height: '30px',
-              textAlign: 'center',
+              paddingLeft: '30px',
             }}
           >
             Contact:{' '}
@@ -64,7 +64,7 @@ const Footer = () => {
               color: 'gray',
               textDecoration: 'underline',
               height: '30px',
-              textAlign: 'center',
+              paddingLeft: '30px',
             }}
           >
             Follow:{' '}

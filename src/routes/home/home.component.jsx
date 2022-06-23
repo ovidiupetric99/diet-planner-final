@@ -47,7 +47,7 @@ const Home = () => {
 
   const signIn = [
     {
-      title: 'GO SIGN OR SIGN UP',
+      title: 'GO SIGN IN OR SIGN UP',
       imageUrl: 'https://www.merakilane.com/wp-content/uploads/2018/06/Plant-Based-Diet-Meal-Plan-for-Beginners_-21-Day-Kickstart-Guide-slider.jpg',
       id: 1,
       linkUrl: '/auth',

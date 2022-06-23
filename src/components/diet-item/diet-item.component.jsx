@@ -47,7 +47,6 @@ const DietItem = ({foodItem, handler, id}) => {
         id: detail.id,
       }));
       const q2 = queryData[0];
-      console.log (q2);
       for (let i in q2) {
         if (i === id) {
           setItemToDelete (i);
