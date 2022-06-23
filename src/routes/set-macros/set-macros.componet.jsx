@@ -60,7 +60,6 @@ const SetMacros = () => {
       datalabels: {
         formatter: (value, context) => {
           const datapoints = context.chart.data.datasets[0].data;
-          console.log (datapoints);
           const totalSum = (total, datapoint) => {
             return total + datapoint;
           };

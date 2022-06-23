@@ -50,8 +50,6 @@ const Modal = ({open, children, onClose}) => {
         </div>
         <div className="elements-list">
           {children.foodNutrients.map ((el, i) => {
-            // if (i >= 19) return;
-            // else
             return (
               <div key={i} className="element">
                 <span className="start-line">{el.nutrientName}: </span>

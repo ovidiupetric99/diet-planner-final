@@ -1,6 +1,4 @@
 {
     "editor.formatOnSave": true,
-    "json.schemas": []
-
-    "highlight-matching-tag.highlightSelfClosing": true,
+    "json.schemas": [],
 }

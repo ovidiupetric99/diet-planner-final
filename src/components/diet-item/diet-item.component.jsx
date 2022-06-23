@@ -28,18 +28,19 @@ const deleteItemFromDatabase = async (id, user) => {
   });
 };
 
-const DietItem = ({foodItem, handler}) => {
+const DietItem = ({foodItem, handler, id}) => {
   const {name, quantity, kcal, protein, carbs, fat} = foodItem;
   const [food, setFood] = useState (foodItem);
   const {currentUser} = useContext (UserContext);
   const [itemToDelete, setItemToDelete] = useState (null);
-  //let itemToDelete = null;
   const user = currentUser;
   const {clearFoodFromDiet} = useContext (DietContext);
 
   const clearFoodHandler = async () => {
     const db = getFirestore ();
     const q = query (collection (db, `users/${user.uid}/diet`));
+    console.log (foodItem);
+    console.log ('key: ', id);
 
     getDocs (q).then (r => {
       const querySnapshot = r;
@@ -48,8 +49,9 @@ const DietItem = ({foodItem, handler}) => {
         id: detail.id,
       }));
       const q2 = queryData[0];
+      console.log (q2);
       for (let i in q2) {
-        if (q2[i].fdcId === foodItem.fdcId) {
+        if (i === id) {
           setItemToDelete (i);
           setFood (null);
         }
@@ -76,7 +78,7 @@ const DietItem = ({foodItem, handler}) => {
         <div className="checkout-item-container">
           <div className="macros-data">
             <span>
-              {name}{', '}{quantity * 100}G
+              {name}{', '}{(quantity * 100).toFixed (0)}G
             </span>
           </div>
           <div className="macros-data">

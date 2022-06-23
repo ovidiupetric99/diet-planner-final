@@ -66,6 +66,7 @@ const Meal = props => {
         content.push (
           <DietItem
             key={i}
+            id={i}
             foodItem={item}
             mealNumber={props.value}
             test={test}

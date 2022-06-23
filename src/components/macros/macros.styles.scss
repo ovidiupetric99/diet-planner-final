@@ -17,6 +17,7 @@
 }
 
 .link-buy {
+    padding-top: 30px;
     text-align: center;
     margin: auto;
 
@@ -28,5 +29,7 @@
     .buy {
         color: blue;
         border-bottom: 1px solid blue;
+        font-size: larger;
+        font-weight: 800;
     }
 }
