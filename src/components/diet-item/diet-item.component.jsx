@@ -39,8 +39,6 @@ const DietItem = ({foodItem, handler, id}) => {
   const clearFoodHandler = async () => {
     const db = getFirestore ();
     const q = query (collection (db, `users/${user.uid}/diet`));
-    console.log (foodItem);
-    console.log ('key: ', id);
 
     getDocs (q).then (r => {
       const querySnapshot = r;

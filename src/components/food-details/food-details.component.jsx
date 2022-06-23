@@ -35,6 +35,7 @@ const FoodDetails = ({food}) => {
   const [foodToAdd, setFoodToAdd] = useState (null);
   const {currentUser} = useContext (UserContext);
   const [length, setLength] = useState (0);
+  const [addingFood, setAddingFood] = useState (false);
   const user = currentUser;
   let count = 0;
   const data = {
@@ -73,8 +74,13 @@ const FoodDetails = ({food}) => {
     return food.foodNutrients[1].value * 900 / food.foodNutrients[3].value;
   };
 
+  const changeButton = param => {
+    setAddingFood (param);
+  };
+
   const handleSubmit = async event => {
     event.preventDefault ();
+    changeButton (true);
 
     const db = getFirestore ();
     const q = query (collection (db, `users/${user.uid}/diet`));
@@ -86,9 +92,7 @@ const FoodDetails = ({food}) => {
 
     let mealNr = 0;
     if (meal == null) {
-      console.log ('Nu exista meal nr.');
       mealNr = queryData.map (el => el[length - 1].mealNr);
-      console.log (mealNr[0]);
     }
 
     if (foodToAdd != {}) {
@@ -117,6 +121,10 @@ const FoodDetails = ({food}) => {
         fat: food.foodNutrients[1].value,
       },
     });
+
+    setTimeout (() => {
+      changeButton (false);
+    }, 1000);
   };
 
   useEffect (
@@ -229,13 +237,14 @@ const FoodDetails = ({food}) => {
           <span className="data"> 100G</span>
         </div>
         <div className="button-template">
-          <Button type="submit">ADD</Button>
+          {addingFood == true
+            ? <Button>✓</Button>
+            : <Button type="submit">ADD</Button>}
         </div>
         <span className="info-button" onClick={() => setIsOpen (true)}>
           Additional Information
         </span>
       </form>
-
       <Modal open={isOpen} onClose={() => setIsOpen (false)}>
         {food}
       </Modal>
