@@ -11,4 +11,21 @@
     .search-button {
         background-color: white;
     }
+
+
+    .meal-nr {
+        padding: 40px;
+        margin-left: auto;
+        margin-right: auto;
+        color: #5C288E;
+        height: 100px;
+        text-align: center;
+        width: 500px;
+
+        .meal-nr-text {
+            text-decoration: underline;
+            padding: 20px;
+            margin: auto;
+        }
+    }
 }

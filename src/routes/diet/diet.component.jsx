@@ -1,5 +1,4 @@
 import {useContext, useState, useEffect} from 'react';
-import Button from '../../components/button/button.component';
 import {
   userMealsNumber,
   userTotalMacrosFromDiet,
@@ -46,12 +45,29 @@ const Diet = () => {
         backgroundColor: ['#B859C0', '#0ABFC8', '#E58B30'],
       },
     ],
-    labels: ['Protein ', 'Carbs ', 'Fats '],
+    labels: ['Protein', 'Carbs', 'Fats'],
     hoverOffset: 4,
   };
 
   const options = {
     plugins: {
+      tooltip: {
+        enabled: true,
+        callbacks: {
+          label: tooltipItem => {
+            const datapoints = tooltipItem.dataset.data;
+            const totalSum = (total, datapoint) => {
+              return total + datapoint;
+            };
+
+            const totalValue = datapoints.reduce (totalSum, 0);
+            const percentageValue = (tooltipItem.parsed /
+              totalValue *
+              100).toFixed (0);
+            return `${tooltipItem.label}: ${percentageValue}%`;
+          },
+        },
+      },
       datalabels: {
         display: false,
       },

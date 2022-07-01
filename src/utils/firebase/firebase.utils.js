@@ -15,10 +15,7 @@ import {
   getDoc,
   setDoc,
   updateDoc,
-  query,
-  collection,
   deleteDoc,
-  getDocs,
 } from 'firebase/firestore';
 
 const {REACT_APP_FIREBASE_SECRET_KEY} = process.env;
@@ -65,7 +62,7 @@ export const createUserDocumentFromAuth = async (
 
   const userSnapshot = await getDoc (userDocRef);
 
-  //if user data doesn t exist do this ->
+  //if user data doesn't exist do this ->
   if (!userSnapshot.exists ()) {
     const {displayName, email} = userAuth;
     const createdAt = new Date ();
@@ -79,14 +76,12 @@ export const createUserDocumentFromAuth = async (
         premium,
         ...additionalInformation,
       });
-      // console.log (userSnapshot);
     } catch (error) {
       console.log ('error creating the user', error.message);
     }
   }
 
   //if user data exists ->
-
   return userDocRef;
 };
 
@@ -149,9 +144,11 @@ export const currentUserData = async userAuth => {
     userSnapshot.data ().height &&
     userSnapshot.data ().activity &&
     userSnapshot.data ().gender
-  )
+  ) {
     return true;
-  else return false;
+  } else {
+    return false;
+  }
 };
 
 export const currentUserSnapshot = async userAuth => {
@@ -196,6 +193,7 @@ export const userMacrosGoal = async userAuth => {
 export const userTotalMacrosFromDiet = async userAuth => {
   if (!userAuth) return;
   const userDocRef = doc (db, `users/${userAuth.uid}/diet/diet`);
+  //get user Doc referene
 
   const userSnapshot = await getDoc (userDocRef);
   const items = userSnapshot.data ();
@@ -206,6 +204,8 @@ export const userTotalMacrosFromDiet = async userAuth => {
     fat: 0,
   };
 
+  //parcurgere alimente din dieta
+  //la total se aduna cantiatea alimentului * valoarea macronutrientului
   for (let i in items) {
     const item = items[i];
     total = {
@@ -217,6 +217,7 @@ export const userTotalMacrosFromDiet = async userAuth => {
   }
 
   return total;
+  // returneaza obiectul total
 };
 
 export const clearUserDiet = async userAuth => {
