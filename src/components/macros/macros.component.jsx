@@ -81,7 +81,7 @@ const Macros = () => {
         ? <div className="data-container">
             <div className="user-data">
               <h1>
-                Macronutrients goals for {userData.displayName.toUpperCase ()} :
+                Macronutrients goals for {userData.displayName.toUpperCase ()}
               </h1>
               <h2>Kcal goal: {userData.kcal} </h2>
               <h2>Protein goal: {userData.protein}g</h2>
